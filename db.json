@@ -1,0 +1,110 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "description": "Cama, mesa e banho",
+      "sector": "Cama, mesa e banho"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 2,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 3,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 4,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 5,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 6,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 7,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 8,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    },
+    {
+      "id": 9,
+      "category_id": 1,
+      "brand": "Marca",
+      "model": "Modelo",
+      "price": 39.99,
+      "quantity": 3,
+      "size": "M",
+      "specs": "Informações Técnicas",
+      "description": "Lençol"
+    }
+  ]
+}
