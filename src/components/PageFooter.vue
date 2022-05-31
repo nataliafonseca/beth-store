@@ -10,10 +10,10 @@ export default {
 
 <style scoped>
 footer {
-  background: #837ff1;
+  background: #d35e64;
   color: #ffffff;
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 30px;
 }
 </style>

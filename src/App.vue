@@ -62,7 +62,9 @@ label {
 }
 
 input,
+select,
 textarea {
+  color: inherit;
   border-radius: 4px;
   border: 1px solid #ffffff;
   padding: 15px;
@@ -70,7 +72,6 @@ textarea {
   transition: all 0.3;
   font-size: 1rem;
   font-family: inherit;
-  margin-bottom: 15px;
 }
 
 input:focus,
@@ -79,13 +80,13 @@ textarea:focus,
 textarea:hover {
   outline: none;
   box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
-  border-color: #8877ff;
+  border-color: #dd7076;
 }
 
 .btn {
   display: block;
   padding: 10px 30px;
-  background: #8877ff;
+  background: #dd7076;
   border: none;
   border-radius: 4px;
   color: #ffffff;
@@ -98,8 +99,8 @@ textarea:hover {
 }
 
 .btn:hover {
-  background: #6655dd;
-  transform: scale(1.1);
+  background: #d35e64;
+  transform: scale(1.05);
 }
 
 .v-enter,

@@ -1,9 +1,9 @@
 <template>
   <header>
     <nav>
-      <router-link :to="{ name: 'home' }" class="logo"
-        >beth<span>store</span></router-link
-      >
+      <router-link :to="{ name: 'home' }" class="logo">
+        beth<span>store</span>
+      </router-link>
       <router-link :to="{ name: 'login' }" class="btn">Login</router-link>
     </nav>
   </header>
@@ -31,6 +31,6 @@ nav {
 }
 
 .logo span {
-  color: #8877ff;
+  color: #dd7076;
 }
 </style>
