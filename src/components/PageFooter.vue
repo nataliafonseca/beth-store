@@ -1,5 +1,5 @@
 <template>
-  <footer>© Beth Store - Todos os direitos reservados.</footer>
+  <footer>© Beth Store</footer>
 </template>
 
 <script>

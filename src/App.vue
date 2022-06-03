@@ -25,8 +25,8 @@ export default {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Arial, sans-serif;
   color: #334455;
   background: #f5f5f5;
 }
@@ -76,6 +76,8 @@ textarea {
 
 input:focus,
 input:hover,
+select:focus,
+select:hover,
 textarea:focus,
 textarea:hover {
   outline: none;
@@ -96,6 +98,11 @@ textarea:hover {
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
   cursor: pointer;
   transition: all 0.3s;
+}
+
+.btn:focus {
+  border: 1px solid #f5f5f5;
+  outline: 1px solid #db9ea1;
 }
 
 .btn:hover {
