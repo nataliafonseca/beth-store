@@ -89,7 +89,7 @@ textarea:hover {
   display: block;
   padding: 10px 30px;
   background: #dd7076;
-  border: none;
+  border: 2px solid transparent;
   border-radius: 4px;
   color: #ffffff;
   text-align: center;
