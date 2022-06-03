@@ -3,20 +3,17 @@
     <transition mode="out-in">
       <loading-dots v-if="loading" key="loading" />
       <div
-        v-else-if="piniaStore.products.length > 0"
+        v-else-if="pageProducts.length > 0"
         class="products"
         key="product-list"
       >
-        <div
-          v-for="product in piniaStore.products"
-          class="product"
-          :key="product.id"
-        >
+        <div v-for="product in pageProducts" class="product" :key="product.id">
           <router-link to="/">
             <img :src="product.picture" alt="Product" />
             <div class="product-info">
               <p class="price">{{ formatPrice(product.price) }}</p>
               <h2 class="title">{{ product.description }}</h2>
+              <h2 class="title">{{ product.id }}</h2>
               <p class="details">
                 Marca {{ product.brand }}, modelo {{ product.model }}, tamanho
                 {{ product.size }} Marca {{ product.brand }}, modelo
@@ -37,6 +34,10 @@
             </div>
           </router-link>
         </div>
+        <products-pagination
+          :productsTotal="piniaStore.products.length"
+          :productsPerPage="productsPerPage"
+        />
       </div>
       <div v-else key="no-results">
         <p class="no-results">Busca sem resultados.</p>
@@ -49,19 +50,29 @@
 import LoadingDots from "./LoadingDots.vue";
 import { mapStores } from "pinia";
 import { useStore } from "@/store/useStore";
+import ProductsPagination from "./ProductsPagination.vue";
 
 export default {
-  components: { LoadingDots },
+  components: { LoadingDots, ProductsPagination },
   name: "ProductList",
   data() {
     return {
       loading: null,
+      productsPerPage: 3,
     };
   },
   computed: {
     ...mapStores(useStore),
     url() {
       return this.$route.query;
+    },
+    pageProducts() {
+      if (!this.url._page)
+        return this.piniaStore.products.slice(0, this.productsPerPage);
+      return this.piniaStore.products.slice(
+        (this.url._page - 1) * this.productsPerPage,
+        (this.url._page - 1) * this.productsPerPage + this.productsPerPage
+      );
     },
   },
   methods: {
