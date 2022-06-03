@@ -2,18 +2,46 @@
   <div id="app">
     <page-header />
     <main id="main">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition mode="out-in">
+          <loading-dots v-if="loading" key="loading" />
+          <component :is="Component" v-else key="router-view" />
+        </transition>
+      </router-view>
     </main>
     <page-footer />
   </div>
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useStore } from "@/store/useStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
+import LoadingDots from "./components/LoadingDots.vue";
 
 export default {
-  components: { PageHeader, PageFooter },
+  data() {
+    return {
+      loading: false,
+    };
+  },
+  components: { PageHeader, PageFooter, LoadingDots },
+  computed: {
+    ...mapStores(useStore),
+    url() {
+      return this.$route.query;
+    },
+  },
+  async mounted() {
+    this.loading = true;
+    await this.piniaStore.loadProducts(
+      this.url.category ?? "-1",
+      this.url.search ?? ""
+    );
+    await this.piniaStore.loadCategories();
+    this.loading = false;
+  },
 };
 </script>
 
@@ -108,6 +136,15 @@ textarea:hover {
 .btn:hover {
   background: #d35e64;
   transform: scale(1.05);
+}
+
+.btn:disabled {
+  background: #db9ea1;
+  box-shadow: none;
+}
+
+.btn:disabled:hover {
+  transform: scale(1);
 }
 
 .v-enter,

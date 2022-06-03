@@ -22,12 +22,16 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useStore } from "@/store/useStore";
+
 export default {
   name: "PageHeader",
-  data() {
-    return {
-      cartCount: 1,
-    };
+  computed: {
+    ...mapStores(useStore),
+    cartCount() {
+      return this.piniaStore.cart.length;
+    },
   },
 };
 </script>

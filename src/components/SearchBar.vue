@@ -36,9 +36,9 @@ export default {
   name: "SearchBar",
   data() {
     return {
-      search: "",
-      category: -1,
       categories: null,
+      category: this.$route.query.category ?? "-1",
+      search: this.$route.query.search ?? "",
     };
   },
   methods: {

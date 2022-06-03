@@ -1,12 +1,17 @@
 <template>
   <section class="products-container">
     <transition mode="out-in">
+      <loading-dots v-if="loading" key="loading" />
       <div
-        v-if="products && products.length > 0"
+        v-else-if="piniaStore.products.length > 0"
         class="products"
         key="product-list"
       >
-        <div v-for="product in products" class="product" :key="product.id">
+        <div
+          v-for="product in piniaStore.products"
+          class="product"
+          :key="product.id"
+        >
           <router-link to="/">
             <img :src="product.picture" alt="Product" />
             <div class="product-info">
@@ -21,22 +26,29 @@
                 {{ product.model }}, tamanho
                 {{ product.size }}
               </p>
-              <button class="btn add-button">ADICIONAR AO CARRINHO</button>
+              <button
+                v-if="product.remaining"
+                class="btn add-button"
+                @click="piniaStore.addToCart(product)"
+              >
+                ADICIONAR AO CARRINHO
+              </button>
+              <button v-else class="btn add-button" disabled>ESGOTADO</button>
             </div>
           </router-link>
         </div>
       </div>
-      <div v-else-if="products" key="no-results">
+      <div v-else key="no-results">
         <p class="no-results">Busca sem resultados.</p>
       </div>
-      <loading-dots v-else key="loading" />
     </transition>
   </section>
 </template>
 
 <script>
-import { api } from "../services/api";
 import LoadingDots from "./LoadingDots.vue";
+import { mapStores } from "pinia";
+import { useStore } from "@/store/useStore";
 
 export default {
   components: { LoadingDots },
@@ -44,58 +56,19 @@ export default {
   data() {
     return {
       loading: null,
-      products: null,
-      categories: null,
     };
   },
   computed: {
+    ...mapStores(useStore),
     url() {
       return this.$route.query;
     },
   },
   methods: {
-    async getProducts() {
-      this.loading = true;
-      const response = await api.get("/products");
-
-      let products = response.data;
-
-      if (this.url.category && this.url.category !== "-1") {
-        products = products.filter(
-          (product) => product.category_id === parseInt(this.url.category)
-        );
-      }
-
-      if (this.url.search && this.url.search.trim() !== "") {
-        products = products.filter(
-          (product) =>
-            product.description
-              .toLowerCase()
-              .includes(this.url.search.toLowerCase()) ||
-            product.model
-              .toLowerCase()
-              .includes(this.url.search.toLowerCase()) ||
-            product.brand
-              .toLowerCase()
-              .includes(this.url.search.toLowerCase()) ||
-            product.size
-              .toLowerCase()
-              .includes(this.url.search.toLowerCase()) ||
-            product.specs.toLowerCase().includes(this.url.search.toLowerCase())
-        );
-      }
-
-      this.products = products;
-      this.loading = false;
-    },
-    async getCategories() {
-      this.loading = true;
-      const response = await api.get("/categories");
-      this.categories = response.data;
-      this.loading = false;
-    },
     getCategoryById(id) {
-      const category = this.categories.find((category) => category.id === id);
+      const category = this.piniaStore.categories.find(
+        (category) => category.id === id
+      );
       return category.description;
     },
     formatPrice(value) {
@@ -110,16 +83,29 @@ export default {
       }
     },
   },
-  created() {
-    this.loading = true;
-    this.getProducts();
-    this.getCategories();
-    this.loading = false;
-  },
   watch: {
-    url() {
-      this.getProducts();
+    async url() {
+      this.loading = true;
+      await this.piniaStore.loadProducts(
+        this.url.category ?? "-1",
+        this.url.search ?? ""
+      );
+      this.loading = false;
     },
+  },
+  async created() {
+    this.loading = true;
+    if (
+      (this.url.category && this.url.category !== "-1") ||
+      (this.url.search && this.url.search !== "")
+    ) {
+      await this.piniaStore.loadProducts(
+        this.url.category ?? "-1",
+        this.url.search ?? ""
+      );
+      await this.piniaStore.loadCategories();
+    }
+    this.loading = false;
   },
 };
 </script>
@@ -169,6 +155,7 @@ export default {
 }
 
 .no-results {
+  margin-top: 100px;
   text-align: center;
 }
 </style>
