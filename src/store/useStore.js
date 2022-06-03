@@ -27,16 +27,14 @@ export const useStore = defineStore("pinia", {
         );
       }
 
-      if (search.trim() !== "") {
+      if (search !== "") {
         products = products.filter(
           (product) =>
-            product.description
-              .toLowerCase()
-              .includes(search.trim().toLowerCase()) ||
-            product.model.toLowerCase().includes(search.trim().toLowerCase()) ||
-            product.brand.toLowerCase().includes(search.trim().toLowerCase()) ||
-            product.size.toLowerCase().includes(search.trim().toLowerCase()) ||
-            product.specs.toLowerCase().includes(search.trim().toLowerCase())
+            product.description.toLowerCase().includes(search.toLowerCase()) ||
+            product.model.toLowerCase().includes(search.toLowerCase()) ||
+            product.brand.toLowerCase().includes(search.toLowerCase()) ||
+            product.size.toLowerCase().includes(search.toLowerCase()) ||
+            product.specs.toLowerCase().includes(search.toLowerCase())
         );
       }
 

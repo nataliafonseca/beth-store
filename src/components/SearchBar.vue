@@ -3,7 +3,7 @@
     <input
       name="search"
       id="search"
-      v-model="search"
+      v-model.trim="search"
       type="text"
       placeholder="Busque aqui seu produto"
     />
@@ -41,6 +41,11 @@ export default {
       search: this.$route.query.search ?? "",
     };
   },
+  computed: {
+    url() {
+      return this.$route.query;
+    },
+  },
   methods: {
     async getCategories() {
       const response = await api.get("/categories");
@@ -54,6 +59,12 @@ export default {
   },
   created() {
     this.getCategories();
+  },
+  watch: {
+    url() {
+      this.category = this.url.category ?? "-1";
+      this.search = this.url.search ?? "";
+    },
   },
 };
 </script>
