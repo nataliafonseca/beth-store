@@ -112,6 +112,7 @@ li + li {
 }
 
 .l1 .item-title {
+  font-weight: bold;
   max-width: 160px;
   white-space: nowrap;
   overflow: hidden;

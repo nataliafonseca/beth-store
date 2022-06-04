@@ -31,17 +31,27 @@
         </svg>
       </button>
     </header>
-    <ul>
-      <cart-item
-        v-for="item in piniaStore.cart"
-        :key="item.product.id"
-        :item="item"
-      />
-    </ul>
-    <p class="total">
-      <span>Total:</span> <span class="total-price">R$ 299,99</span>
-    </p>
-    <button class="btn cart-btn">FINALIZAR PEDIDO</button>
+    <transition mode="out-in">
+      <div v-if="piniaStore.cart.length > 0" key="has-items">
+        <ul>
+          <cart-item
+            v-for="item in piniaStore.cart"
+            :key="item.product.id"
+            :item="item"
+          />
+        </ul>
+        <p class="total">
+          <span>Total:</span>
+          <span class="total-price">{{ formatPrice(getTotal()) }}</span>
+        </p>
+        <button class="btn cart-btn">FINALIZAR PEDIDO</button>
+      </div>
+      <div class="empty-cart" v-else key="no-items">
+        <p>
+          Poxa, parece que você ainda não adicionou nenhum item à sua sacola :(
+        </p>
+      </div>
+    </transition>
   </section>
 </template>
 
@@ -55,6 +65,25 @@ export default {
   components: { CartItem },
   computed: {
     ...mapStores(useStore),
+  },
+  methods: {
+    getTotal() {
+      return this.piniaStore.cart.reduce((totalPrice, currentItem) => {
+        const subtotal = currentItem.count * currentItem.product.price;
+        return totalPrice + subtotal;
+      }, 0);
+    },
+    formatPrice(value) {
+      value = Number(value);
+      if (!isNaN(value)) {
+        return Number(value).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        });
+      } else {
+        return "";
+      }
+    },
   },
 };
 </script>
@@ -109,15 +138,25 @@ ul {
   padding-top: 20px;
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   font-weight: bold;
 }
 
 .total-price {
   color: #779b00;
+  font-size: 1.2rem;
 }
 
 .cart-btn {
   margin: 10px auto;
   width: calc(100% - 40px);
+}
+
+.empty-cart {
+  margin: 50px 20px;
+}
+
+.empty-cart p {
+  text-align: center;
 }
 </style>
