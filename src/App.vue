@@ -8,6 +8,9 @@
           <component :is="Component" v-else key="router-view" />
         </transition>
       </router-view>
+      <transition name="cart">
+        <cart-sidebar v-show="piniaStore.isCartVisible" />
+      </transition>
     </main>
     <page-footer />
   </div>
@@ -19,6 +22,7 @@ import { useStore } from "@/store/useStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
 import LoadingDots from "./components/LoadingDots.vue";
+import CartSidebar from "./components/CartSidebar.vue";
 
 export default {
   data() {
@@ -26,7 +30,7 @@ export default {
       loading: false,
     };
   },
-  components: { PageHeader, PageFooter, LoadingDots },
+  components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
     ...mapStores(useStore),
     url() {
@@ -83,6 +87,8 @@ img {
 
 #main {
   flex: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
 
 label {
@@ -162,6 +168,17 @@ textarea:hover {
 
 .v-enter-active,
 .v-leave-active {
+  transition: all 0.3s;
+}
+
+.cart-enter,
+.cart-leave-to {
+  opacity: 0;
+  transform: translate3d(0, 0, -30px);
+}
+
+.cart-enter-active,
+.cart-leave-active {
   transition: all 0.3s;
 }
 </style>

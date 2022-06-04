@@ -7,33 +7,11 @@
         class="products"
         key="product-list"
       >
-        <div v-for="product in pageProducts" class="product" :key="product.id">
-          <router-link to="/">
-            <img :src="product.picture" alt="Product" />
-            <div class="product-info">
-              <p class="price">{{ formatPrice(product.price) }}</p>
-              <h2 class="title">{{ product.description }}</h2>
-              <h2 class="title">{{ product.id }}</h2>
-              <p class="details">
-                Marca {{ product.brand }}, modelo {{ product.model }}, tamanho
-                {{ product.size }} Marca {{ product.brand }}, modelo
-                {{ product.model }}, tamanho {{ product.size }} Marca
-                {{ product.brand }}, modelo {{ product.model }}, tamanho
-                {{ product.size }} Marca {{ product.brand }}, modelo
-                {{ product.model }}, tamanho
-                {{ product.size }}
-              </p>
-              <button
-                v-if="product.remaining"
-                class="btn add-button"
-                @click="piniaStore.addToCart(product)"
-              >
-                ADICIONAR AO CARRINHO
-              </button>
-              <button v-else class="btn add-button" disabled>ESGOTADO</button>
-            </div>
-          </router-link>
-        </div>
+        <product-card
+          v-for="product in pageProducts"
+          :key="product.id"
+          :product="product"
+        />
         <products-pagination
           :productsTotal="piniaStore.products.length"
           :productsPerPage="productsPerPage"
@@ -48,12 +26,13 @@
 
 <script>
 import LoadingDots from "./LoadingDots.vue";
+import ProductCard from "./ProductCard.vue";
 import { mapStores } from "pinia";
 import { useStore } from "@/store/useStore";
 import ProductsPagination from "./ProductsPagination.vue";
 
 export default {
-  components: { LoadingDots, ProductsPagination },
+  components: { LoadingDots, ProductsPagination, ProductCard },
   name: "ProductList",
   data() {
     return {
@@ -75,25 +54,7 @@ export default {
       );
     },
   },
-  methods: {
-    getCategoryById(id) {
-      const category = this.piniaStore.categories.find(
-        (category) => category.id === id
-      );
-      return category.description;
-    },
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
-  },
+
   watch: {
     async url() {
       this.loading = true;
@@ -123,7 +84,8 @@ export default {
 
 <style scoped>
 .products-container {
-  max-width: 1000px;
+  width: 1000px;
+  max-width: 98vw;
   margin: 0 auto;
 }
 
@@ -132,37 +94,6 @@ export default {
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
   margin: 30px;
-}
-
-.product {
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
-  background: #fff;
-  border-radius: 4px;
-  transition: all 0.2s;
-  padding: 2px;
-}
-
-.product-info {
-  display: grid;
-  margin-top: 5px;
-  padding: 10px;
-}
-
-.price {
-  font-weight: bold;
-  color: #779b00;
-}
-
-.details {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  margin-top: 10px;
-}
-
-.add-button {
-  margin-top: 20px;
 }
 
 .no-results {

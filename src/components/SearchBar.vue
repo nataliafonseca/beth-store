@@ -72,7 +72,7 @@ export default {
 <style scoped>
 form {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
   gap: 10px;
 }

@@ -6,6 +6,7 @@ export const useStore = defineStore("pinia", {
     categories: [],
     products: [],
     cart: [],
+    isCartVisible: false,
   }), // data
   getters: {}, // computed
   actions: {
@@ -56,20 +57,56 @@ export const useStore = defineStore("pinia", {
       const response = await api.get("/categories");
       this.categories = response.data;
     },
-    addToCart(product) {
+    addToCart(product_id) {
+      const product = this.products.find(
+        (product) => product.id === product_id
+      );
+      if (!product) return;
+
       const existingProduct = this.cart.find(
-        (item) => item.product.id === product.id
+        (item) => item.product.id === product_id
       );
 
       if (existingProduct && product.remaining > 0) {
         existingProduct.count++;
+        product.remaining--;
       } else if (product.remaining > 0) {
         this.cart.push({ product, count: 1 });
+        product.remaining--;
       }
 
-      this.products.forEach((p) => {
-        if (p.id === product.id) product.remaining--;
-      });
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    },
+    subtractFromCart(product_id) {
+      const product = this.products.find(
+        (product) => product.id === product_id
+      );
+      if (!product) return;
+
+      const existingProduct = this.cart.find(
+        (item) => item.product.id === product_id
+      );
+
+      if (existingProduct && existingProduct.count > 0) {
+        existingProduct.count--;
+        product.remaining++;
+      }
+
+      if (existingProduct.count === 0) {
+        this.removeFromCart(product_id);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    },
+    removeFromCart(product_id) {
+      this.cart = this.cart.filter((item) => item.product.id !== product_id);
+
+      const product = this.products.find(
+        (product) => product.id === product_id
+      );
+      if (!product) return;
+
+      product.remaining = product.quantity;
 
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
@@ -80,6 +117,9 @@ export const useStore = defineStore("pinia", {
         product.remaining = product.quantity;
         return product;
       });
+    },
+    toggleCart() {
+      this.isCartVisible = !this.isCartVisible;
     },
   }, // methods
 });

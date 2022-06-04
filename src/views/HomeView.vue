@@ -19,7 +19,8 @@ export default {
 section {
   padding-top: 40px;
   padding-bottom: 40px;
-  max-width: 1000px;
+  width: 1000px;
+  max-width: 95vw;
   margin: 0 auto;
 }
 </style>
