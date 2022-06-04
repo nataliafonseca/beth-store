@@ -1,16 +1,16 @@
 <template>
   <li>
-    <img :src="item.product.picture" alt="" />
+    <img :src="product.picture" alt="" />
     <div class="info">
       <div class="l1">
         <p>
           <span class="item-title">
-            {{ item.product.description }}
+            {{ product.description }}
           </span>
-          <span class="pid">PID: {{ item.product.id }}</span>
+          <span class="pid">PID: {{ product.id }}</span>
         </p>
         <button
-          @click.prevent="piniaStore.removeFromCart(item.product.id)"
+          @click.prevent="piniaStore.removeFromCart(product.id)"
           class="icon-button"
         >
           <svg
@@ -31,25 +31,25 @@
       </div>
       <div class="l2">
         <span class="product-price">
-          {{ formatPrice(item.product.price) }}
+          {{ formatPrice(product.price) }}
         </span>
         <div class="counter">
-          <button @click.prevent="piniaStore.subtractFromCart(item.product.id)">
+          <button @click.prevent="piniaStore.subtractFromCart(product.id)">
             -
           </button>
           <span>
             {{ item.count }}
           </span>
           <button
-            v-if="item.product.remaining"
-            @click.prevent="piniaStore.addToCart(item.product.id)"
+            v-if="product.remaining"
+            @click.prevent="piniaStore.addToCart(product.id)"
           >
             +
           </button>
           <button v-else disabled>+</button>
         </div>
         <span class="product-subtotal">
-          {{ formatPrice(item.product.price * item.count) }}
+          {{ formatPrice(product.price * item.count) }}
         </span>
       </div>
     </div>
@@ -65,6 +65,9 @@ export default {
   props: ["item"],
   computed: {
     ...mapStores(useStore),
+    product() {
+      return this.piniaStore.getProductById(this.item.product_id);
+    },
   },
   methods: {
     formatPrice(value) {

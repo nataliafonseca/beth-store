@@ -41,7 +41,7 @@ export const useStore = defineStore("pinia", {
 
       products.map((product) => {
         const productInCart = this.cart.find(
-          (item) => item.product.id === product.id
+          (item) => item.product_id === product.id
         );
 
         if (productInCart)
@@ -57,24 +57,27 @@ export const useStore = defineStore("pinia", {
       const response = await api.get("/categories");
       this.categories = response.data;
     },
+    getProductById(id) {
+      return this.products.find((product) => product.id === id);
+    },
     addToCart(product_id) {
       const product = this.products.find(
         (product) => product.id === product_id
       );
       if (!product) return;
 
-      const existingProduct = this.cart.find(
-        (item) => item.product.id === product_id
+      const itemInCart = this.cart.find(
+        (item) => item.product_id === product_id
       );
 
-      if (existingProduct && product.remaining > 0) {
-        existingProduct.count++;
+      if (itemInCart && product.remaining > 0) {
+        itemInCart.count++;
         product.remaining--;
       } else if (product.remaining > 0) {
-        this.cart.push({ product, count: 1 });
+        this.cart.push({ product_id: product.id, count: 1 });
         product.remaining--;
       }
-
+      this.openCart();
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
     subtractFromCart(product_id) {
@@ -83,23 +86,23 @@ export const useStore = defineStore("pinia", {
       );
       if (!product) return;
 
-      const existingProduct = this.cart.find(
-        (item) => item.product.id === product_id
+      const itemInCart = this.cart.find(
+        (item) => item.product_id === product_id
       );
 
-      if (existingProduct && existingProduct.count > 0) {
-        existingProduct.count--;
+      if (itemInCart && itemInCart.count > 0) {
+        itemInCart.count--;
         product.remaining++;
       }
 
-      if (existingProduct.count === 0) {
+      if (itemInCart.count === 0) {
         this.removeFromCart(product_id);
       }
 
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
     removeFromCart(product_id) {
-      this.cart = this.cart.filter((item) => item.product.id !== product_id);
+      this.cart = this.cart.filter((item) => item.product_id !== product_id);
 
       const product = this.products.find(
         (product) => product.id === product_id
@@ -120,6 +123,9 @@ export const useStore = defineStore("pinia", {
     },
     toggleCart() {
       this.isCartVisible = !this.isCartVisible;
+    },
+    openCart() {
+      this.isCartVisible = true;
     },
   }, // methods
 });

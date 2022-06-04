@@ -36,7 +36,7 @@
         <ul>
           <cart-item
             v-for="item in piniaStore.cart"
-            :key="item.product.id"
+            :key="item.product_id"
             :item="item"
           />
         </ul>
@@ -69,7 +69,8 @@ export default {
   methods: {
     getTotal() {
       return this.piniaStore.cart.reduce((totalPrice, currentItem) => {
-        const subtotal = currentItem.count * currentItem.product.price;
+        const product = this.piniaStore.getProductById(currentItem.product_id);
+        const subtotal = currentItem.count * product.price;
         return totalPrice + subtotal;
       }, 0);
     },
