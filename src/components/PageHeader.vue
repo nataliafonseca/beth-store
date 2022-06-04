@@ -67,7 +67,7 @@ nav {
 }
 
 .logo span {
-  color: #dd7076;
+  color: var(--primary);
 }
 
 .user {
@@ -88,13 +88,13 @@ nav {
 
 svg {
   height: 42px;
-  fill: #dd7076;
+  fill: var(--primary);
   transition: all 0.3s;
 }
 
 svg:hover {
   height: 42px;
-  fill: #d35e64;
+  fill: var(--primary-dark);
   transform: scale(1.05);
 }
 
@@ -103,11 +103,11 @@ svg:hover {
   width: 18px;
   height: 18px;
   font-size: 0.8rem;
-  border: 1px solid #d35e64;
+  border: 1px solid var(--primary-dark);
   border-radius: 50%;
   display: block;
-  background: #d35e64;
-  color: #ffffff;
+  background: var(--primary-dark);
+  color: var(--background-secondary);
   text-align: center;
   top: 0px;
   right: 0px;

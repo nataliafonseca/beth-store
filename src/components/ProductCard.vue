@@ -82,7 +82,7 @@ export default {
 <style scoped>
 .product {
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
-  background: #fff;
+  background: var(--background-secondary);
   border-radius: 4px;
   transition: all 0.2s;
   padding: 2px;
@@ -97,14 +97,14 @@ export default {
 .product-price {
   display: flex;
   font-weight: bold;
-  color: #779b00;
+  color: var(--accent);
 }
 
 .product-price span {
   display: inline-block;
   font-weight: initial;
   margin-left: auto;
-  color: #c5c5c5;
+  color: var(--text-lighter);
 }
 
 .product-details {
@@ -120,7 +120,7 @@ export default {
 }
 
 .counter {
-  border: 2px solid #dd7076;
+  border: 2px solid var(--primary);
   height: 46px;
   margin-top: 20px;
   border-radius: 4px;
@@ -128,24 +128,24 @@ export default {
   align-items: center;
   justify-content: space-between;
   font-size: 1.1rem;
+  cursor: text;
 }
 
 .counter button {
   background: transparent;
   border: none;
   padding: 0 15px;
-  color: #dd7076;
+  color: var(--primary);
   font-size: 2rem;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .counter button:hover {
-  color: #d35e64;
-  transform: scale(1.1);
+  color: var(--primary-darker);
 }
 
 .counter button:disabled {
-  color: #dab6b8;
+  color: var(--primary-lighter);
 }
 </style>

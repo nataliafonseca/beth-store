@@ -91,8 +91,8 @@ export default {
 
 <style scoped>
 .cart {
-  background: #ffffff;
-  border-left: 1px solid #c9c9c9;
+  background: var(--background-secondary);
+  border-left: 1px solid var(--border);
   width: 350px;
   display: flex;
   flex-direction: column;
@@ -104,8 +104,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #dd7076;
-  color: #ffffff;
+  background: var(--primary);
+  color: var(--background-secondary);
   padding: 0 10px;
 }
 
@@ -122,7 +122,7 @@ header span {
 }
 
 .icon-button:hover {
-  color: #e5e5e5;
+  color: var(--background-details);
 }
 
 .svg-icon {
@@ -144,7 +144,7 @@ ul {
 }
 
 .total-price {
-  color: #779b00;
+  color: var(--accent);
   font-size: 1.2rem;
 }
 

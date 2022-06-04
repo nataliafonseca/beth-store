@@ -95,7 +95,7 @@ li {
 }
 
 li + li {
-  border-top: 1px solid #e8e8e8;
+  border-top: 1px solid var(--border-light);
 }
 
 .info {
@@ -125,19 +125,19 @@ li + li {
 .l1 .pid {
   margin-left: auto;
   margin-right: 10px;
-  color: #c5c5c5;
+  color: var(--text-lighter);
 }
 
 .icon-button {
   background: transparent;
   border: none;
-  color: #dd7076;
+  color: var(--primary);
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .icon-button:hover {
-  color: #d35e64;
+  color: var(--primary-darker);
 }
 
 .trash-icon {
@@ -150,19 +150,19 @@ li + li {
 }
 
 .product-price {
-  color: #909090;
+  color: var(--text-light-2);
 }
 
 .product-subtotal {
   font-weight: bold;
-  color: #779b00;
+  color: var(--accent);
 }
 
 .counter {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid #e8e8e8;
+  border: 1px solid var(--border-light);
   border-radius: 4px;
   margin: 0 15px 0 0;
 }
@@ -171,17 +171,17 @@ li + li {
   background: transparent;
   border: none;
   padding: 0 8px;
-  color: #dd7076;
+  color: var(--primary);
   font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .counter button:hover {
-  color: #d35e64;
+  color: var(--primary-darker);
 }
 
 .counter button:disabled {
-  color: #dab6b8;
+  color: var(--primary-lighter);
 }
 </style>

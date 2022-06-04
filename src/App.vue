@@ -50,6 +50,24 @@ export default {
 </script>
 
 <style>
+:root {
+  --primary: #dd7076;
+  --primary-dark: #d35e64;
+  --primary-darker: #cf464d;
+  --primary-light: #db9ea1;
+  --primary-lighter: #dab6b8;
+  --background-primary: #f5f5f5;
+  --background-secondary: #ffffff;
+  --background-details: #e5e5e5;
+  --accent: #779b00;
+  --text: #334455;
+  --text-light-1: #61718d;
+  --text-light-2: #909090;
+  --text-lighter: #c5c5c5;
+  --border: #c9c9c9;
+  --border-light: #e8e8e8;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -59,8 +77,8 @@ export default {
 body {
   font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Arial, sans-serif;
-  color: #334455;
-  background: #f5f5f5;
+  color: var(--text);
+  background: var(--background-primary);
 }
 
 ul {
@@ -100,7 +118,7 @@ select,
 textarea {
   color: inherit;
   border-radius: 4px;
-  border: 1px solid #ffffff;
+  border: 1px solid var(--background-secondary);
   padding: 15px;
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
   transition: all 0.3;
@@ -116,16 +134,16 @@ textarea:focus,
 textarea:hover {
   outline: none;
   box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
-  border-color: #dd7076;
+  border-color: var(--primary);
 }
 
 .btn {
   display: block;
   padding: 10px 30px;
-  background: #dd7076;
+  background: var(--primary);
   border: 2px solid transparent;
   border-radius: 4px;
-  color: #ffffff;
+  color: var(--background-secondary);
   text-align: center;
   font-family: inherit;
   font-size: 1rem;
@@ -135,17 +153,17 @@ textarea:hover {
 }
 
 .btn:focus {
-  border: 1px solid #f5f5f5;
-  outline: 1px solid #db9ea1;
+  border: 1px solid var(--background-primary);
+  outline: 1px solid var(--primary-light);
 }
 
 .btn:hover {
-  background: #d35e64;
+  background: var(--primary-dark);
   transform: scale(1.05);
 }
 
 .btn:disabled {
-  background: #db9ea1;
+  background: var(--primary-light);
   box-shadow: none;
 }
 

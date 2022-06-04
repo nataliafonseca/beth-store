@@ -118,23 +118,26 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+
 .page-buttons {
   display: flex;
   align-items: center;
 }
+
 .page-buttons span {
-  color: #61718d;
+  color: var(--text-light-1);
 }
+
 .page-buttons a {
   padding: 2px 8px;
   border-radius: 4px;
   margin: 4px;
-  background: #e5e5e5;
+  background: var(--background-details);
 }
 
 .page-buttons a.currentPage,
 .page-buttons a:hover {
-  background: #dd7076;
-  color: #fff;
+  background: var(--primary);
+  color: var(--background-secondary);
 }
 </style>

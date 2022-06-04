@@ -17,8 +17,8 @@ export default {
 
 <style scoped>
 footer {
-  background: #d35e64;
-  color: #ffffff;
+  background: var(--primary);
+  color: var(--background-secondary);
   display: flex;
   justify-content: center;
   padding: 30px;
@@ -30,6 +30,6 @@ p {
 }
 
 .color {
-  color: #334455;
+  color: var(--text);
 }
 </style>

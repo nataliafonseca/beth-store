@@ -24,7 +24,7 @@ export default {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #dd7076;
+  background: var(--primary);
   margin: 4px;
   animation: dots 0.6s cubic-bezier(0.6, 0.1, 1, 0.4) infinite alternate;
 }
