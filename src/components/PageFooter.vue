@@ -1,10 +1,17 @@
 <template>
-  <footer>© Beth Store</footer>
+  <footer>
+    <p>{{ year }} © Copyright - <span class="color">beth</span>store</p>
+  </footer>
 </template>
 
 <script>
 export default {
   name: "PageFooter",
+  computed: {
+    year() {
+      return new Date().getFullYear();
+    },
+  },
 };
 </script>
 
@@ -15,5 +22,14 @@ footer {
   display: flex;
   justify-content: center;
   padding: 30px;
+}
+
+p {
+  display: inline-block;
+  font-family: "Montserrat Alternates";
+}
+
+.color {
+  color: #334455;
 }
 </style>

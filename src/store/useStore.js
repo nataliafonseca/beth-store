@@ -60,6 +60,9 @@ export const useStore = defineStore("pinia", {
     getProductById(id) {
       return this.products.find((product) => product.id === id);
     },
+    getCartItemById(id) {
+      return this.cart.find((item) => item.product_id === id);
+    },
     addToCart(product_id) {
       const product = this.products.find(
         (product) => product.id === product_id
@@ -77,7 +80,7 @@ export const useStore = defineStore("pinia", {
         this.cart.push({ product_id: product.id, count: 1 });
         product.remaining--;
       }
-      this.openCart();
+
       localStorage.setItem("cart", JSON.stringify(this.cart));
     },
     subtractFromCart(product_id) {

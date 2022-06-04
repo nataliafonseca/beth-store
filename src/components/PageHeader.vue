@@ -19,8 +19,8 @@
               clip-rule="evenodd"
             />
           </svg>
-          <div v-if="cartCount !== 0" class="cart-count">
-            <span>{{ cartCount }}</span>
+          <div v-if="getCartTotalCount() !== 0" class="cart-count">
+            <span>{{ getCartTotalCount() }}</span>
           </div>
         </button>
       </div>
@@ -38,6 +38,14 @@ export default {
     ...mapStores(useStore),
     cartCount() {
       return this.piniaStore.cart.length;
+    },
+  },
+  methods: {
+    getCartTotalCount() {
+      return this.piniaStore.cart.reduce(
+        (totalCount, currentItem) => totalCount + currentItem.count,
+        0
+      );
     },
   },
 };

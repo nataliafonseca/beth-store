@@ -14,14 +14,31 @@
           Marca {{ product.brand }}, modelo {{ product.model }}, tamanho
           {{ product.size }}
         </p>
+        <button v-if="!product.quantity" class="btn add-button" disabled>
+          ESGOTADO
+        </button>
+        <div class="counter" v-else-if="cartItem">
+          <button @click.prevent="piniaStore.subtractFromCart(product.id)">
+            -
+          </button>
+          <span>
+            {{ cartItem.count }}
+          </span>
+          <button
+            v-if="product.remaining"
+            @click.prevent="piniaStore.addToCart(product.id)"
+          >
+            +
+          </button>
+          <button v-else disabled>+</button>
+        </div>
         <button
-          v-if="product.remaining"
+          v-else
           class="btn add-button"
           @click.prevent="piniaStore.addToCart(product.id)"
         >
           ADICIONAR À SACOLA
         </button>
-        <button v-else class="btn add-button" disabled>ESGOTADO</button>
       </div>
     </router-link>
   </div>
@@ -36,6 +53,9 @@ export default {
   props: ["product"],
   computed: {
     ...mapStores(useStore),
+    cartItem() {
+      return this.piniaStore.getCartItemById(this.product.id);
+    },
   },
   methods: {
     getCategoryById(id) {
@@ -97,5 +117,35 @@ export default {
 
 .add-button {
   margin-top: 20px;
+}
+
+.counter {
+  border: 2px solid #dd7076;
+  height: 46px;
+  margin-top: 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1rem;
+}
+
+.counter button {
+  background: transparent;
+  border: none;
+  padding: 0 15px;
+  color: #dd7076;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.counter button:hover {
+  color: #d35e64;
+  transform: scale(1.1);
+}
+
+.counter button:disabled {
+  color: #dab6b8;
 }
 </style>
