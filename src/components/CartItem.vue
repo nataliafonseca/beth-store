@@ -1,5 +1,6 @@
 <template>
-  <li>
+  <loading-dots v-if="loading" />
+  <li v-else>
     <img :src="product.picture" alt="" />
     <div class="info">
       <div class="l1">
@@ -59,17 +60,25 @@
 <script>
 import { mapStores } from "pinia";
 import { useStore } from "@/store/useStore";
+import LoadingDots from "./LoadingDots.vue";
 
 export default {
   name: "CartItem",
+  components: { LoadingDots },
   props: ["item"],
+  data() {
+    return { product: null, loading: false };
+  },
   computed: {
     ...mapStores(useStore),
-    product() {
-      return this.piniaStore.getProductById(this.item.product_id);
-    },
   },
   methods: {
+    async getProductById() {
+      const product = await this.piniaStore.getProductById(
+        this.item.product_id
+      );
+      this.product = product;
+    },
     formatPrice(value) {
       value = Number(value);
       if (!isNaN(value)) {
@@ -81,6 +90,11 @@ export default {
         return "";
       }
     },
+  },
+  async created() {
+    this.loading = true;
+    await this.getProductById();
+    this.loading = false;
   },
 };
 </script>

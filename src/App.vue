@@ -26,24 +26,15 @@ import CartSidebar from "./components/CartSidebar.vue";
 
 export default {
   data() {
-    return {
-      loading: false,
-    };
+    return { loading: false };
   },
   components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
     ...mapStores(useStore),
-    url() {
-      return this.$route.query;
-    },
   },
   async mounted() {
     this.loading = true;
-    await this.piniaStore.loadProducts(
-      this.url.category ?? "-1",
-      this.url.search ?? ""
-    );
-    await this.piniaStore.loadCategories();
+    await this.piniaStore.loadProducts();
     this.loading = false;
   },
 };
@@ -85,16 +76,28 @@ ul {
   list-style: none;
 }
 
-a,
-button {
+button,
+a {
   color: inherit;
   text-decoration: none;
+}
+
+.link {
+  color: var(--primary);
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.link:hover {
+  color: var(--primary-darker);
+  text-decoration: underline;
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
+  border-radius: 4px;
 }
 
 #app {
@@ -165,6 +168,7 @@ textarea:hover {
 .btn:disabled {
   background: var(--primary-light);
   box-shadow: none;
+  cursor: default;
 }
 
 .btn:disabled:hover {

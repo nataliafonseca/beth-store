@@ -47,8 +47,8 @@ export default {
     },
     pageProducts() {
       if (!this.url._page)
-        return this.piniaStore.products.slice(0, this.productsPerPage);
-      return this.piniaStore.products.slice(
+        return this.piniaStore.visibleProducts.slice(0, this.productsPerPage);
+      return this.piniaStore.visibleProducts.slice(
         (this.url._page - 1) * this.productsPerPage,
         (this.url._page - 1) * this.productsPerPage + this.productsPerPage
       );
@@ -58,7 +58,7 @@ export default {
   watch: {
     async url() {
       this.loading = true;
-      await this.piniaStore.loadProducts(
+      await this.piniaStore.filterProducts(
         this.url.category ?? "-1",
         this.url.search ?? ""
       );
@@ -67,16 +67,10 @@ export default {
   },
   async created() {
     this.loading = true;
-    if (
-      (this.url.category && this.url.category !== "-1") ||
-      (this.url.search && this.url.search !== "")
-    ) {
-      await this.piniaStore.loadProducts(
-        this.url.category ?? "-1",
-        this.url.search ?? ""
-      );
-      await this.piniaStore.loadCategories();
-    }
+    await this.piniaStore.filterProducts(
+      this.url.category ?? "-1",
+      this.url.search ?? ""
+    );
     this.loading = false;
   },
 };
@@ -85,13 +79,12 @@ export default {
 <style scoped>
 .products-container {
   width: 1000px;
-  max-width: 98vw;
   margin: 0 auto;
 }
 
 .products {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 30px;
   margin: 30px;
 }

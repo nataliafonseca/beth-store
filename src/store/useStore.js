@@ -5,6 +5,7 @@ export const useStore = defineStore("pinia", {
   state: () => ({
     categories: [],
     products: [],
+    visibleProducts: [],
     cart: [],
     isCartVisible: false,
   }), // data
@@ -15,29 +16,11 @@ export const useStore = defineStore("pinia", {
 
       if (existingCart) this.cart = JSON.parse(existingCart);
     },
-    async loadProducts(category, search) {
+    async loadProducts() {
       this.loadCart();
 
       const response = await api.get("/products");
-
-      let products = response.data;
-
-      if (category !== "-1") {
-        products = products.filter(
-          (product) => product.category_id === parseInt(category)
-        );
-      }
-
-      if (search !== "") {
-        products = products.filter(
-          (product) =>
-            product.description.toLowerCase().includes(search.toLowerCase()) ||
-            product.model.toLowerCase().includes(search.toLowerCase()) ||
-            product.brand.toLowerCase().includes(search.toLowerCase()) ||
-            product.size.toLowerCase().includes(search.toLowerCase()) ||
-            product.specs.toLowerCase().includes(search.toLowerCase())
-        );
-      }
+      const products = response.data;
 
       products.map((product) => {
         const productInCart = this.cart.find(
@@ -57,8 +40,45 @@ export const useStore = defineStore("pinia", {
       const response = await api.get("/categories");
       this.categories = response.data;
     },
-    getProductById(id) {
-      return this.products.find((product) => product.id === id);
+    async filterProducts(category, search) {
+      if (this.products.length === 0) {
+        await this.loadProducts();
+      }
+
+      let products = this.products;
+
+      if (category !== "-1") {
+        products = products.filter(
+          (product) => product.category_id === parseInt(category)
+        );
+      }
+
+      if (search !== "") {
+        products = products.filter(
+          (product) =>
+            product.description.toLowerCase().includes(search.toLowerCase()) ||
+            product.model.toLowerCase().includes(search.toLowerCase()) ||
+            product.brand.toLowerCase().includes(search.toLowerCase()) ||
+            product.size.toLowerCase().includes(search.toLowerCase()) ||
+            product.specs.toLowerCase().includes(search.toLowerCase())
+        );
+      }
+
+      this.visibleProducts = products;
+    },
+    async getProductById(id) {
+      if (this.products.length === 0) {
+        await this.loadProducts();
+      }
+
+      return this.products.find((product) => product.id === parseInt(id));
+    },
+    async getCategoryById(id) {
+      if (this.categories.length === 0) {
+        await this.loadCategories();
+      }
+
+      return this.categories.find((category) => category.id === parseInt(id));
     },
     getCartItemById(id) {
       return this.cart.find((item) => item.product_id === id);

@@ -1,6 +1,6 @@
 <template>
   <div class="product">
-    <router-link to="/">
+    <router-link :to="{ name: 'product', params: { id: product.id } }">
       <img :src="product.picture" alt="Product" />
       <div class="product-info">
         <p class="product-price">
@@ -14,31 +14,7 @@
           Marca {{ product.brand }}, modelo {{ product.model }}, tamanho
           {{ product.size }}
         </p>
-        <button v-if="!product.quantity" class="btn add-button" disabled>
-          ESGOTADO
-        </button>
-        <div class="counter" v-else-if="cartItem">
-          <button @click.prevent="piniaStore.subtractFromCart(product.id)">
-            -
-          </button>
-          <span>
-            {{ cartItem.count }}
-          </span>
-          <button
-            v-if="product.remaining"
-            @click.prevent="piniaStore.addToCart(product.id)"
-          >
-            +
-          </button>
-          <button v-else disabled>+</button>
-        </div>
-        <button
-          v-else
-          class="btn add-button"
-          @click.prevent="piniaStore.addToCart(product.id)"
-        >
-          ADICIONAR À SACOLA
-        </button>
+        <add-to-cart-button class="add-button" :product="product" />
       </div>
     </router-link>
   </div>
@@ -47,9 +23,11 @@
 <script>
 import { mapStores } from "pinia";
 import { useStore } from "@/store/useStore";
+import AddToCartButton from "./AddToCartButton.vue";
 
 export default {
   name: "ProductCard",
+  components: { AddToCartButton },
   props: ["product"],
   computed: {
     ...mapStores(useStore),
@@ -117,35 +95,5 @@ export default {
 
 .add-button {
   margin-top: 20px;
-}
-
-.counter {
-  border: 2px solid var(--primary);
-  height: 46px;
-  margin-top: 20px;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 1.1rem;
-  cursor: text;
-}
-
-.counter button {
-  background: transparent;
-  border: none;
-  padding: 0 15px;
-  color: var(--primary);
-  font-size: 2rem;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.counter button:hover {
-  color: var(--primary-darker);
-}
-
-.counter button:disabled {
-  color: var(--primary-lighter);
 }
 </style>

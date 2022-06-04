@@ -8,6 +8,13 @@ const routes = [
     component: HomeView,
   },
   {
+    path: "/product/:id",
+    name: "product",
+    props: true,
+    component: () =>
+      import(/* webpackChunkName: "login" */ "../views/ProductView.vue"),
+  },
+  {
     path: "/login",
     name: "login",
     component: () =>

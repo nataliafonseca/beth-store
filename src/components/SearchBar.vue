@@ -15,7 +15,7 @@
     >
       <option value="-1" selected>Todas as categorias</option>
       <option
-        v-for="categoryValue in categories"
+        v-for="categoryValue in piniaStore.categories"
         :key="categoryValue.id"
         :value="categoryValue.id"
       >
@@ -30,27 +30,24 @@
 </template>
 
 <script>
-import { api } from "../services/api";
+import { mapStores } from "pinia";
+import { useStore } from "@/store/useStore";
 
 export default {
   name: "SearchBar",
   data() {
     return {
-      categories: null,
       category: this.$route.query.category ?? "-1",
       search: this.$route.query.search ?? "",
     };
   },
   computed: {
+    ...mapStores(useStore),
     url() {
       return this.$route.query;
     },
   },
   methods: {
-    async getCategories() {
-      const response = await api.get("/categories");
-      this.categories = response.data;
-    },
     searchProducts() {
       this.$router.push({
         query: { search: this.search, category: this.category },
@@ -58,7 +55,7 @@ export default {
     },
   },
   created() {
-    this.getCategories();
+    this.piniaStore.loadCategories();
   },
   watch: {
     url() {
@@ -75,6 +72,7 @@ form {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding: 0 10px;
 }
 
 form span {
