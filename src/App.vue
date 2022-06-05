@@ -129,6 +129,7 @@ textarea {
   transition: all 0.3;
   font-size: 1rem;
   font-family: inherit;
+  background: var(--background-secondary);
 }
 
 input:focus,
