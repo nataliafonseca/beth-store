@@ -32,11 +32,11 @@ export default {
   computed: {
     ...mapStores(productStore),
   },
-  async mounted() {
-    this.loading = true;
-    await this.productStore.loadProducts();
-    this.loading = false;
-  },
+  // async mounted() {
+  //   this.loading = true;
+  //   await this.productStore.loadProducts();
+  //   this.loading = false;
+  // },
 };
 </script>
 
@@ -66,7 +66,7 @@ export default {
 }
 
 body {
-  font-family: Inter, -apple-system, "Open Sans", sans-serif;
+  font-family: "Inter", -apple-system, "Open Sans", sans-serif;
   color: var(--text);
   background: var(--background-primary);
 }

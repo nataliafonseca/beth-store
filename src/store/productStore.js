@@ -8,8 +8,7 @@ export const productStore = defineStore("product", {
     visibleProducts: [],
     cart: [],
     isCartVisible: false,
-  }), // data
-  getters: {}, // computed
+  }),
   actions: {
     loadCart() {
       const existingCart = localStorage.getItem("cart");
@@ -142,5 +141,5 @@ export const productStore = defineStore("product", {
     openCart() {
       this.isCartVisible = true;
     },
-  }, // methods
+  },
 });
