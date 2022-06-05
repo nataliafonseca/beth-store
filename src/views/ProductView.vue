@@ -6,6 +6,7 @@
         <img :src="product.picture" alt="" />
       </div>
       <div class="info">
+        <p class="pid">PID: {{ product.id }}</p>
         <h1>{{ product.description }}</h1>
         <p>
           Veja mais em
@@ -135,5 +136,10 @@ h1 {
 
 .info > p > span {
   font-weight: bold;
+}
+
+.pid {
+  display: inline-block;
+  color: var(--text-lighter);
 }
 </style>
