@@ -28,7 +28,7 @@
         <p><span>Tamanho:</span> {{ product.size }}</p>
       </div>
       <div class="specs">
-        <h2>Epecificações</h2>
+        <h2>Especificações Técnicas</h2>
         <p>{{ product.specs }}</p>
       </div>
     </div>
