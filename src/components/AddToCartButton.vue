@@ -2,7 +2,7 @@
   <button v-if="!product.quantity" class="btn add-button" disabled>
     ESGOTADO
   </button>
-  <div class="counter" v-else-if="cartItem">
+  <div class="counter" v-else-if="cartItem" @click.prevent="">
     <button @click.prevent="productStore.subtractFromCart(product.id)">
       -
     </button>

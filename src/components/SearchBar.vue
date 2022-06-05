@@ -68,18 +68,13 @@ export default {
 
 <style scoped>
 form {
-  display: flex;
+  display: grid;
+  max-width: 1000px;
+  margin: 0 auto;
+  grid-template-columns: 1fr auto auto;
   justify-content: center;
   align-items: center;
   gap: 10px;
   padding: 0 10px;
-}
-
-form span {
-  font-weight: bold;
-}
-
-#search {
-  width: 90%;
 }
 </style>

@@ -12,7 +12,7 @@
         <span>Total:</span>
         <span class="total-price">{{ formatPrice(getTotal()) }}</span>
       </p>
-      <button class="btn clear-btn" @click="productStore.clearCart">
+      <button class="btn clear-btn" @click.prevent="productStore.clearCart">
         LIMPAR SACOLA
       </button>
       <button class="btn cart-btn">FINALIZAR PEDIDO</button>
@@ -57,11 +57,6 @@ export default {
         return "";
       }
     },
-  },
-  async created() {
-    if (productStore.products.length === 0) {
-      await productStore.loadProducts();
-    }
   },
 };
 </script>
