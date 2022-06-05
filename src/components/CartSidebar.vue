@@ -58,11 +58,11 @@ export default {
 <style scoped>
 .sidebar {
   background: var(--background-secondary);
-  border-left: 1px solid var(--border);
   width: 350px;
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 76px * 2);
+  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
 }
 
 header {

@@ -160,7 +160,7 @@ textarea:hover {
 
 .btn:focus {
   border: 1px solid var(--background-primary);
-  outline: 1px solid var(--primary-light);
+  outline: 1px solid var(--primary-lighter);
 }
 
 .btn:hover {
