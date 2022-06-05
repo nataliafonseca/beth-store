@@ -22,7 +22,7 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 import AddToCartButton from "./AddToCartButton.vue";
 
 export default {
@@ -30,14 +30,14 @@ export default {
   components: { AddToCartButton },
   props: ["product"],
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
     cartItem() {
-      return this.piniaStore.getCartItemById(this.product.id);
+      return this.productStore.getCartItemById(this.product.id);
     },
   },
   methods: {
     getCategoryById(id) {
-      const category = this.piniaStore.categories.find(
+      const category = this.productStore.categories.find(
         (category) => category.id === id
       );
       return category.description;

@@ -115,5 +115,12 @@
       "description": "Lençol",
       "picture": "https://images.unsplash.com/flagged/photo-1575517111839-3a3843ee7f5d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
     }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "email": "beth@bethstore.com",
+      "password": "123456"
+    }
   ]
 }

@@ -1,7 +1,7 @@
 <template>
-  <section class="cart">
+  <section class="sidebar">
     <header>
-      <button class="icon-button" @click.prevent="piniaStore.toggleCart">
+      <button class="icon-button" @click.prevent="productStore.toggleCart">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 svg-icon close-icon"
@@ -16,7 +16,7 @@
         </svg>
       </button>
       <span>SACOLA</span>
-      <button class="icon-button" @click.prevent="piniaStore.clearCart">
+      <button class="icon-button" @click="expandCart">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-5 w-5 svg-icon"
@@ -25,72 +25,38 @@
         >
           <path
             fill-rule="evenodd"
-            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+            d="M3 4a1 1 0 011-1h4a1 1 0 010 2H6.414l2.293 2.293a1 1 0 01-1.414 1.414L5 6.414V8a1 1 0 01-2 0V4zm9 1a1 1 0 110-2h4a1 1 0 011 1v4a1 1 0 11-2 0V6.414l-2.293 2.293a1 1 0 11-1.414-1.414L13.586 5H12zm-9 7a1 1 0 112 0v1.586l2.293-2.293a1 1 0 011.414 1.414L6.414 15H8a1 1 0 110 2H4a1 1 0 01-1-1v-4zm13-1a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 110-2h1.586l-2.293-2.293a1 1 0 011.414-1.414L15 13.586V12a1 1 0 011-1z"
             clip-rule="evenodd"
           />
         </svg>
       </button>
     </header>
-    <transition mode="out-in">
-      <div v-if="piniaStore.cart.length > 0" key="has-items">
-        <ul>
-          <cart-item
-            v-for="item in piniaStore.cart"
-            :key="item.product_id"
-            :item="item"
-          />
-        </ul>
-        <p class="total">
-          <span>Total:</span>
-          <span class="total-price">{{ formatPrice(getTotal()) }}</span>
-        </p>
-        <button class="btn cart-btn">FINALIZAR PEDIDO</button>
-      </div>
-      <div class="empty-cart" v-else key="no-items">
-        <p>
-          Poxa, parece que você ainda não adicionou nenhum item à sua sacola :(
-        </p>
-      </div>
-    </transition>
+    <cart-body />
   </section>
 </template>
 
 <script>
+import CartBody from "./CartBody.vue";
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
-import CartItem from "./CartItem.vue";
+import { productStore } from "@/store/productStore";
 
 export default {
   name: "CartSidebar",
-  components: { CartItem },
+  components: { CartBody },
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
   },
   methods: {
-    getTotal() {
-      return this.piniaStore.cart.reduce((totalPrice, currentItem) => {
-        const product = this.piniaStore.getProductById(currentItem.product_id);
-        const subtotal = currentItem.count * product.price;
-        return totalPrice + subtotal;
-      }, 0);
-    },
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
+    expandCart() {
+      this.$router.push({ name: "cart" });
+      this.productStore.toggleCart();
     },
   },
 };
 </script>
 
 <style scoped>
-.cart {
+.sidebar {
   background: var(--background-secondary);
   border-left: 1px solid var(--border);
   width: 350px;
@@ -127,37 +93,5 @@ header span {
 
 .svg-icon {
   width: 24px;
-}
-
-ul {
-  padding: 15px;
-}
-
-.total {
-  border-top: 2px solid;
-  margin: 20px;
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-weight: bold;
-}
-
-.total-price {
-  color: var(--accent);
-  font-size: 1.2rem;
-}
-
-.cart-btn {
-  margin: 10px auto;
-  width: calc(100% - 40px);
-}
-
-.empty-cart {
-  margin: 50px 20px;
-}
-
-.empty-cart p {
-  text-align: center;
 }
 </style>

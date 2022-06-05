@@ -3,13 +3,15 @@
     ESGOTADO
   </button>
   <div class="counter" v-else-if="cartItem">
-    <button @click.prevent="piniaStore.subtractFromCart(product.id)">-</button>
+    <button @click.prevent="productStore.subtractFromCart(product.id)">
+      -
+    </button>
     <span>
       {{ cartItem.count }}
     </span>
     <button
       v-if="product.remaining"
-      @click.prevent="piniaStore.addToCart(product.id)"
+      @click.prevent="productStore.addToCart(product.id)"
     >
       +
     </button>
@@ -18,7 +20,7 @@
   <button
     v-else
     class="btn add-button"
-    @click.prevent="piniaStore.addToCart(product.id)"
+    @click.prevent="productStore.addToCart(product.id)"
   >
     ADICIONAR À SACOLA
   </button>
@@ -26,15 +28,15 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 
 export default {
   name: "AddToCartButton",
   props: ["product"],
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
     cartItem() {
-      return this.piniaStore.getCartItemById(this.product.id);
+      return this.productStore.getCartItemById(this.product.id);
     },
   },
 };

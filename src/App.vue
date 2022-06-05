@@ -2,14 +2,14 @@
   <div id="app">
     <page-header />
     <main id="main">
-      <router-view v-slot="{ Component }">
+      <router-view class="view" v-slot="{ Component }">
         <transition mode="out-in">
           <loading-dots v-if="loading" key="loading" />
           <component :is="Component" v-else key="router-view" />
         </transition>
       </router-view>
       <transition name="cart">
-        <cart-sidebar v-show="piniaStore.isCartVisible" />
+        <cart-sidebar v-show="productStore.isCartVisible" />
       </transition>
     </main>
     <page-footer />
@@ -18,7 +18,7 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
 import LoadingDots from "./components/LoadingDots.vue";
@@ -30,11 +30,11 @@ export default {
   },
   components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
   },
   async mounted() {
     this.loading = true;
-    await this.piniaStore.loadProducts();
+    await this.productStore.loadProducts();
     this.loading = false;
   },
 };
@@ -106,10 +106,13 @@ img {
   min-height: calc(100vh + 82px);
 }
 
+.view {
+  flex: 1;
+}
+
 #main {
   flex: 1;
-  display: grid;
-  grid-template-columns: 1fr auto;
+  display: flex;
 }
 
 label {

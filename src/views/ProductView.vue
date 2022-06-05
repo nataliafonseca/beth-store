@@ -36,7 +36,7 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 import AddToCartButton from "../components/AddToCartButton.vue";
 import LoadingDots from "../components/LoadingDots.vue";
 
@@ -48,9 +48,9 @@ export default {
     return { loading: false, product: null, category: null };
   },
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
     cartItem() {
-      return this.piniaStore.getCartItemById(this.product.id);
+      return this.productStore.getCartItemById(this.product.id);
     },
   },
   methods: {
@@ -68,8 +68,8 @@ export default {
   },
   async created() {
     this.loading = true;
-    this.product = await this.piniaStore.getProductById(this.id);
-    this.category = await this.piniaStore.getCategoryById(
+    this.product = await this.productStore.getProductById(this.id);
+    this.category = await this.productStore.getCategoryById(
       this.product.category_id
     );
     this.loading = false;

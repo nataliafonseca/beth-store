@@ -11,7 +11,7 @@
           <span class="pid">PID: {{ product.id }}</span>
         </p>
         <button
-          @click.prevent="piniaStore.removeFromCart(product.id)"
+          @click.prevent="productStore.removeFromCart(product.id)"
           class="icon-button"
         >
           <svg
@@ -35,7 +35,7 @@
           {{ formatPrice(product.price) }}
         </span>
         <div class="counter">
-          <button @click.prevent="piniaStore.subtractFromCart(product.id)">
+          <button @click.prevent="productStore.subtractFromCart(product.id)">
             -
           </button>
           <span>
@@ -43,7 +43,7 @@
           </span>
           <button
             v-if="product.remaining"
-            @click.prevent="piniaStore.addToCart(product.id)"
+            @click.prevent="productStore.addToCart(product.id)"
           >
             +
           </button>
@@ -59,7 +59,7 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 import LoadingDots from "./LoadingDots.vue";
 
 export default {
@@ -70,11 +70,11 @@ export default {
     return { product: null, loading: false };
   },
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
   },
   methods: {
     async getProductById() {
-      const product = await this.piniaStore.getProductById(
+      const product = await this.productStore.getProductById(
         this.item.product_id
       );
       this.product = product;
@@ -169,6 +169,7 @@ li + li {
 
 .product-subtotal {
   font-weight: bold;
+  text-align: end;
   color: var(--accent);
 }
 

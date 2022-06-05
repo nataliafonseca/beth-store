@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { api } from "@/services/api";
 
-export const useStore = defineStore("pinia", {
+export const productStore = defineStore("product", {
   state: () => ({
     categories: [],
     products: [],
@@ -40,11 +40,7 @@ export const useStore = defineStore("pinia", {
       const response = await api.get("/categories");
       this.categories = response.data;
     },
-    async filterProducts(category, search) {
-      if (this.products.length === 0) {
-        await this.loadProducts();
-      }
-
+    filterProducts(category, search) {
       let products = this.products;
 
       if (category !== "-1") {
@@ -66,11 +62,7 @@ export const useStore = defineStore("pinia", {
 
       this.visibleProducts = products;
     },
-    async getProductById(id) {
-      if (this.products.length === 0) {
-        await this.loadProducts();
-      }
-
+    getProductById(id) {
       return this.products.find((product) => product.id === parseInt(id));
     },
     async getCategoryById(id) {

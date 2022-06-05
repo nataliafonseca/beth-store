@@ -13,7 +13,7 @@
           :product="product"
         />
         <products-pagination
-          :productsTotal="piniaStore.products.length"
+          :productsTotal="productStore.products.length"
           :productsPerPage="productsPerPage"
         />
       </div>
@@ -28,7 +28,7 @@
 import LoadingDots from "./LoadingDots.vue";
 import ProductCard from "./ProductCard.vue";
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 import ProductsPagination from "./ProductsPagination.vue";
 
 export default {
@@ -37,18 +37,18 @@ export default {
   data() {
     return {
       loading: null,
-      productsPerPage: 3,
+      productsPerPage: 6,
     };
   },
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
     url() {
       return this.$route.query;
     },
     pageProducts() {
       if (!this.url._page)
-        return this.piniaStore.visibleProducts.slice(0, this.productsPerPage);
-      return this.piniaStore.visibleProducts.slice(
+        return this.productStore.visibleProducts.slice(0, this.productsPerPage);
+      return this.productStore.visibleProducts.slice(
         (this.url._page - 1) * this.productsPerPage,
         (this.url._page - 1) * this.productsPerPage + this.productsPerPage
       );
@@ -56,18 +56,18 @@ export default {
   },
 
   watch: {
-    async url() {
+    url() {
       this.loading = true;
-      await this.piniaStore.filterProducts(
+      this.productStore.filterProducts(
         this.url.category ?? "-1",
         this.url.search ?? ""
       );
       this.loading = false;
     },
   },
-  async created() {
+  created() {
     this.loading = true;
-    await this.piniaStore.filterProducts(
+    this.productStore.filterProducts(
       this.url.category ?? "-1",
       this.url.search ?? ""
     );
@@ -78,7 +78,8 @@ export default {
 
 <style scoped>
 .products-container {
-  width: 1000px;
+  max-width: 1000px;
+  width: auto;
   margin: 0 auto;
 }
 

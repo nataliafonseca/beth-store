@@ -6,7 +6,7 @@
       </router-link>
       <div class="user">
         <router-link :to="{ name: 'login' }" class="btn">Login</router-link>
-        <button @click.prevent="piniaStore.toggleCart" class="cartButton">
+        <button @click.prevent="productStore.toggleCart" class="cartButton">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -30,19 +30,19 @@
 
 <script>
 import { mapStores } from "pinia";
-import { useStore } from "@/store/useStore";
+import { productStore } from "@/store/productStore";
 
 export default {
   name: "PageHeader",
   computed: {
-    ...mapStores(useStore),
+    ...mapStores(productStore),
     cartCount() {
-      return this.piniaStore.cart.length;
+      return this.productStore.cart.length;
     },
   },
   methods: {
     getCartTotalCount() {
-      return this.piniaStore.cart.reduce(
+      return this.productStore.cart.reduce(
         (totalCount, currentItem) => totalCount + currentItem.count,
         0
       );
