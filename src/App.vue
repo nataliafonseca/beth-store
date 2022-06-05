@@ -66,7 +66,7 @@ export default {
 }
 
 body {
-  font-family: "Avenir", Inter, -apple-system, "Open Sans", sans-serif;
+  font-family: Inter, -apple-system, "Open Sans", sans-serif;
   color: var(--text);
   background: var(--background-primary);
 }
