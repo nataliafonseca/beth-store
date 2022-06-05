@@ -66,8 +66,7 @@ export default {
 }
 
 body {
-  font-family: Avenir, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", Arial, sans-serif;
+  font-family: "Avenir", Inter, -apple-system, "Open Sans", sans-serif;
   color: var(--text);
   background: var(--background-primary);
 }

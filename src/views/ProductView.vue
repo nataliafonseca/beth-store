@@ -26,10 +26,10 @@
         <p><span>Modelo:</span> {{ product.model }}</p>
         <p><span>Tamanho:</span> {{ product.size }}</p>
       </div>
-    </div>
-    <div class="specs">
-      <h2>Epecificações</h2>
-      <p>{{ product.specs }}</p>
+      <div class="specs">
+        <h2>Epecificações</h2>
+        <p>{{ product.specs }}</p>
+      </div>
     </div>
   </section>
 </template>
@@ -88,8 +88,15 @@ section {
 
 .grid {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 50px;
+  max-width: 1000px;
+  margin: 0 auto;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0 50px;
+}
+
+.specs {
+  grid-column: -1 / 1;
 }
 
 h1 {
@@ -109,6 +116,10 @@ h1 {
   display: flex;
   font-weight: bold;
   color: var(--accent);
+}
+
+.info {
+  max-width: 450px;
 }
 
 .add-button {

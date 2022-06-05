@@ -16,7 +16,7 @@ export default {
 <style scoped>
 .loading-dots {
   text-align: center;
-  margin-top: 80px;
+  margin: 80px auto;
 }
 
 .loading-dots span {
