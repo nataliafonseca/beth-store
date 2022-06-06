@@ -32,6 +32,12 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "register" */ "../views/RegisterView.vue"),
   },
+  {
+    path: "/profile",
+    name: "profile",
+    component: () =>
+      import(/* webpackChunkName: "profile" */ "../views/ProfileView.vue"),
+  },
 ];
 
 const router = createRouter({

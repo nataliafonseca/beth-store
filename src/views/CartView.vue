@@ -21,5 +21,8 @@ export default {
 
 h1 {
   text-align: center;
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 40px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="searchProducts">
     <input
       name="search"
       id="search"
@@ -8,6 +8,7 @@
       placeholder="Busque aqui seu produto"
     />
     <select
+      v-if="!loading"
       name="category"
       id="category"
       v-model="category"
@@ -22,10 +23,18 @@
         {{ categoryValue.description }}
       </option>
     </select>
+    <select
+      v-else
+      name="category"
+      id="category"
+      v-model="category"
+      placeholder="Categoria"
+      disabled
+    >
+      <option value="-1" selected>Todas as categorias</option>
+    </select>
 
-    <button class="btn" type="submit" @click.prevent="searchProducts">
-      Buscar
-    </button>
+    <button class="btn" type="submit">BUSCAR</button>
   </form>
 </template>
 
@@ -37,6 +46,7 @@ export default {
   name: "SearchBar",
   data() {
     return {
+      loading: false,
       category: this.$route.query.category ?? "-1",
       search: this.$route.query.search ?? "",
     };
@@ -53,9 +63,6 @@ export default {
         query: { search: this.search, category: this.category },
       });
     },
-  },
-  created() {
-    this.productStore.loadCategories();
   },
   watch: {
     url() {

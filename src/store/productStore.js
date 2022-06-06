@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { api } from "@/services/api";
+import { api, fakeApi } from "@/services/api";
 
 export const productStore = defineStore("product", {
   state: () => ({
@@ -9,16 +9,16 @@ export const productStore = defineStore("product", {
     cart: [],
     isCartVisible: false,
   }),
+
   actions: {
     loadCart() {
-      const existingCart = localStorage.getItem("cart");
-
+      const existingCart = localStorage.getItem("bethstore.cart");
       if (existingCart) this.cart = JSON.parse(existingCart);
     },
     async loadProducts() {
       this.loadCart();
 
-      const response = await api.get("/products");
+      const response = await fakeApi.get("/products");
       const products = response.data;
 
       products.map((product) => {
@@ -36,8 +36,12 @@ export const productStore = defineStore("product", {
       this.products = products;
     },
     async loadCategories() {
-      const response = await api.get("/categories");
-      this.categories = response.data;
+      const response = await api.get("/categorias");
+      this.categories = response.data.map((category) => ({
+        id: category.id,
+        description: category.nome,
+        sector: category.setor,
+      }));
     },
     filterProducts(category, search) {
       let products = this.products;
@@ -92,7 +96,7 @@ export const productStore = defineStore("product", {
         product.remaining--;
       }
 
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+      localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
     subtractFromCart(product_id) {
       const product = this.products.find(
@@ -113,7 +117,7 @@ export const productStore = defineStore("product", {
         this.removeFromCart(product_id);
       }
 
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+      localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
     removeFromCart(product_id) {
       this.cart = this.cart.filter((item) => item.product_id !== product_id);
@@ -125,10 +129,10 @@ export const productStore = defineStore("product", {
 
       product.remaining = product.quantity;
 
-      localStorage.setItem("cart", JSON.stringify(this.cart));
+      localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
     clearCart() {
-      localStorage.removeItem("cart");
+      localStorage.removeItem("bethstore.cart");
       this.cart = [];
       this.products.map((product) => {
         product.remaining = product.quantity;

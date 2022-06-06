@@ -5,7 +5,16 @@
         beth<span>store</span>
       </router-link>
       <div class="user">
-        <router-link :to="{ name: 'login' }" class="btn">Login</router-link>
+        <router-link
+          v-if="userStore.isAuthenticated"
+          :to="{ name: 'profile' }"
+          class="btn"
+          >{{ userStore.user.name.toUpperCase() }}</router-link
+        >
+        <router-link v-else :to="{ name: 'login' }" class="btn"
+          >LOGIN</router-link
+        >
+
         <button @click.prevent="productStore.toggleCart" class="cartButton">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -31,11 +40,12 @@
 <script>
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
+import { userStore } from "@/store/userStore";
 
 export default {
   name: "PageHeader",
   computed: {
-    ...mapStores(productStore),
+    ...mapStores(productStore, userStore),
     cartCount() {
       return this.productStore.cart.length;
     },

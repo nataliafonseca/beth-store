@@ -119,8 +119,35 @@
   "users": [
     {
       "id": 1,
-      "email": "beth@bethstore.com",
-      "password": "123456"
+      "name": "Beth",
+      "email": "admin@admin.com",
+      "password": "admin",
+      "phone": "7999999999",
+      "cpf": "12345678900",
+      "cep": "49020200",
+      "district": "Treze de Julho",
+      "city": "Aracaju",
+      "state": "SE",
+      "street": "Rua José Ramos da Silva",
+      "number": "123",
+      "complement": "",
+      "roles": ["ADMIN", "CLIENTE"]
+    },
+    {
+      "email": "nat@nat.nat",
+      "name": "nat",
+      "password": "1234",
+      "phone": "79999999999",
+      "cpf": "12345678900",
+      "cep": "49020210",
+      "district": "Salgado Filho",
+      "city": "Aracaju",
+      "state": "SE",
+      "street": "Avenida Professor Acrísio Cruz",
+      "number": "123",
+      "complement": "",
+      "roles": ["CLIENTE"],
+      "id": 2
     }
   ]
 }

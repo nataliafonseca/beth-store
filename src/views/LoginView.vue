@@ -1,7 +1,7 @@
 <template>
   <section>
-    <form>
-      <h1>Login</h1>
+    <h1>Login</h1>
+    <form @submit.prevent="logUser">
       <div>
         <label for="email">Email</label>
         <input
@@ -22,7 +22,13 @@
           required
         />
       </div>
-      <button class="btn" type="submit" @click.prevent="doLogin">ENTRAR</button>
+      <button class="btn" type="submit">ENTRAR</button>
+      <p class="register-link">
+        Ainda não possui uma conta?
+        <router-link class="link" :to="{ name: 'register' }"
+          >Registre-se</router-link
+        >
+      </p>
     </form>
   </section>
 </template>
@@ -45,7 +51,7 @@ export default {
     ...mapStores(userStore),
   },
   methods: {
-    async doLogin() {
+    async logUser() {
       await this.userStore.login(this.user);
     },
   },
@@ -62,16 +68,23 @@ section {
 }
 
 form {
+  width: 90%;
   max-width: 500px;
   margin: 0 auto;
   display: grid;
   gap: 20px;
 }
 
-form h1 {
+h1 {
   text-align: center;
   color: var(--primary);
   font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
 }
 
 form > div {

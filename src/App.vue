@@ -19,6 +19,7 @@
 <script>
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
+import { userStore } from "@/store/userStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
 import LoadingDots from "./components/LoadingDots.vue";
@@ -30,13 +31,15 @@ export default {
   },
   components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
-    ...mapStores(productStore),
+    ...mapStores(productStore, userStore),
   },
-  // async mounted() {
-  //   this.loading = true;
-  //   await this.productStore.loadProducts();
-  //   this.loading = false;
-  // },
+  async created() {
+    this.loading = true;
+    await this.productStore.loadProducts();
+    await this.productStore.loadCategories();
+    this.userStore.loadUser();
+    this.loading = false;
+  },
 };
 </script>
 
@@ -123,7 +126,7 @@ select,
 textarea {
   color: inherit;
   border-radius: 4px;
-  border: 1px solid var(--background-secondary);
+  border: 1px solid transparent;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
   transition: all 0.3;
@@ -141,6 +144,17 @@ textarea:hover {
   outline: none;
   box-shadow: 0 6px 12px rgba(30, 60, 90, 0.2);
   border-color: var(--primary);
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+input:disabled:hover,
+select:disabled:hover,
+textarea:disabled:hover {
+  background: var(--background-details);
+  border: transparent;
+  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
 }
 
 .btn {
