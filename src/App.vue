@@ -165,7 +165,7 @@ textarea:disabled:hover {
   display: block;
   padding: 10px 30px;
   background: var(--primary);
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   border-radius: 4px;
   color: var(--background-secondary);
   text-align: center;

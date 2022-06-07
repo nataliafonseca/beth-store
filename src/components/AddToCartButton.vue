@@ -45,6 +45,7 @@ export default {
 <style scoped>
 button {
   white-space: nowrap;
+  height: 46px;
 }
 
 .counter {
