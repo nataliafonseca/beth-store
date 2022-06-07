@@ -3,7 +3,7 @@
     <router-link
       :to="{ name: 'order-details', params: { id: order.id } }"
       class="order"
-      v-for="order in orderStore.orders"
+      v-for="order in this.orders"
       :key="order.id"
     >
       <div>
@@ -40,6 +40,11 @@ export default {
   },
   computed: {
     ...mapStores(orderStore),
+    orders() {
+      return [...this.orderStore.orders].sort((a, b) =>
+        b.date > a.date ? 1 : -1
+      );
+    },
   },
   methods: {
     formatPrice(value) {
@@ -66,6 +71,9 @@ export default {
 </script>
 
 <style scoped>
+.orders-view {
+  margin-bottom: 40px;
+}
 .order {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -81,6 +89,10 @@ export default {
 .order:hover {
   box-shadow: var(--box-shadow-hover);
   transform: scale(1.02);
+}
+
+.order + .order {
+  margin-top: 15px;
 }
 
 .order > div {

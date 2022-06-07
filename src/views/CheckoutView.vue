@@ -5,7 +5,9 @@
       <cart-body />
       <h2>Endereço de Entrega</h2>
       <address-form />
-      <button class="btn">COMPLETAR COMPRA</button>
+      <button class="btn" @click.prevent="completeOrder">
+        COMPLETAR COMPRA
+      </button>
     </div>
   </section>
 </template>
@@ -13,10 +15,39 @@
 <script>
 import AddressForm from "../components/AddressForm.vue";
 import CartBody from "../components/CartBody.vue";
+import { mapStores } from "pinia";
+import { orderStore } from "@/store/orderStore";
+import { userStore } from "../store/userStore";
+import { productStore } from "../store/productStore";
 
 export default {
   name: "OrderConfirmationView",
   components: { CartBody, AddressForm },
+  computed: {
+    ...mapStores(orderStore, userStore, productStore),
+  },
+  methods: {
+    getTotal() {
+      return this.productStore.cart.reduce((totalPrice, currentItem) => {
+        const product = this.productStore.getProductById(
+          currentItem.product_id
+        );
+        const subtotal = currentItem.count * product.price;
+        return totalPrice + subtotal;
+      }, 0);
+    },
+    completeOrder() {
+      const order = {
+        items: this.productStore.cart,
+        status: "EM PROCESSAMENTO",
+        total_price: this.getTotal(),
+        date: new Date(),
+        user: this.userStore.user,
+      };
+
+      this.orderStore.createOrder(order);
+    },
+  },
 };
 </script>
 

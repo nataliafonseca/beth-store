@@ -16,9 +16,13 @@
     <div class="grid">
       <div class="address">
         <h3>ENDEREÇO DE ENTREGA</h3>
-        <p>{{ order.street }}, {{ order.number }}</p>
-        <p>{{ order.district }}, {{ order.city }}, {{ order.state }}</p>
-        <p>CEP {{ order.cep }}</p>
+        <p>{{ order.user.name }}</p>
+        <p class="lighter">{{ order.user.street }}, {{ order.user.number }}</p>
+        <p class="lighter">
+          {{ order.user.district }}, {{ order.user.city }},
+          {{ order.user.state }}
+        </p>
+        <p class="lighter">{{ order.user.cep }}</p>
       </div>
       <div class="total">
         <h3>TOTAL</h3>
@@ -32,6 +36,7 @@
               {{ item.product.description }}
             </p>
             <p class="quantity">Quantidade: {{ item.quantity }}</p>
+            <p class="product-price">{{ formatPrice(item.product.price) }}</p>
           </div>
           <p class="item-price">
             {{ formatPrice(item.quantity * item.product.price) }}
@@ -90,7 +95,8 @@ export default {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
-  align-items: start;
+  align-items: stretch;
+  margin-bottom: 40px;
 }
 
 .grid > div,
@@ -99,7 +105,6 @@ export default {
   border-radius: 4px;
   box-shadow: var(--box-shadow);
   padding: 20px;
-  min-height: 130px;
 }
 
 .grid ul {
@@ -187,6 +192,11 @@ img {
 
 .quantity {
   color: var(--text-light-2);
+}
+
+.product-price {
+  color: var(--text-light-2);
+  margin-top: 3px;
 }
 
 .item-price {

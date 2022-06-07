@@ -4,6 +4,8 @@ import { fakeApi } from "@/services/api";
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import { userStore } from "@/store/userStore";
+import router from "../router";
+import { toastError, toastSuccess } from "../utils/toast";
 
 export const orderStore = defineStore("order", {
   state: () => ({
@@ -27,6 +29,18 @@ export const orderStore = defineStore("order", {
     },
     getOrderById(id) {
       return this.orders.find((order) => order.id === id);
+    },
+    async createOrder(order) {
+      try {
+        const response = await fakeApi.post("orders", order);
+        const { id } = response.data;
+        this.productStore.clearCart();
+        await this.loadOrders();
+        toastSuccess("Pedido efetuado!");
+        router.push({ name: "order-details", params: { id } });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
     },
   },
 });
