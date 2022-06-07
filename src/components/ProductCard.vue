@@ -59,7 +59,7 @@ export default {
 
 <style scoped>
 .product {
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+  box-shadow: var(--box-shadow);
   background: var(--background-secondary);
   border-radius: 4px;
   transition: all 0.2s;

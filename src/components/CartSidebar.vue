@@ -46,12 +46,13 @@
 import CartBody from "./CartBody.vue";
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
+import { userStore } from "@/store/userStore";
 
 export default {
   name: "CartSidebar",
   components: { CartBody },
   computed: {
-    ...mapStores(productStore),
+    ...mapStores(productStore, userStore),
   },
   methods: {
     expandCart() {
@@ -59,8 +60,12 @@ export default {
       this.productStore.closeCart();
     },
     goToCheckout() {
-      this.$router.push({ name: "checkout" });
-      this.productStore.closeCart();
+      if (this.userStore.isAuthenticated) {
+        this.$router.push({ name: "checkout" });
+        this.productStore.closeCart();
+      } else {
+        this.$router.push({ name: "login" });
+      }
     },
   },
 };
@@ -73,7 +78,7 @@ export default {
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 76px * 2);
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 header {

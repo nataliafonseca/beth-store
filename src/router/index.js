@@ -45,11 +45,20 @@ const routes = [
       import(/* webpackChunkName: "profile" */ "../views/User/ProfileView.vue"),
     children: [
       {
-        path: "",
+        path: "orders",
         name: "orders",
         component: () =>
           import(
             /* webpackChunkName: "orders" */ "../views/User/OrdersView.vue"
+          ),
+      },
+      {
+        path: "orders/:id",
+        name: "order-details",
+        props: true,
+        component: () =>
+          import(
+            /* webpackChunkName: "order-details" */ "../views/User/OrderDetailsView.vue"
           ),
       },
       {

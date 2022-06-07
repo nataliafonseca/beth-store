@@ -3,7 +3,11 @@
     <nav class="sidenav">
       <ul>
         <li>
-          <router-link :to="{ name: 'orders' }">PEDIDOS</router-link>
+          <router-link
+            :class="{ active: ordersIsActive }"
+            :to="{ name: 'orders' }"
+            >PEDIDOS</router-link
+          >
         </li>
         <li>
           <router-link :to="{ name: 'profile-update' }"
@@ -31,6 +35,9 @@ export default {
   name: "ProfileView",
   computed: {
     ...mapStores(userStore),
+    ordersIsActive() {
+      return this.$route.path.includes("/profile/orders");
+    },
   },
 };
 </script>
@@ -73,14 +80,15 @@ button {
   cursor: pointer;
 }
 
-.sidenav a.router-link-exact-active {
+.sidenav a.router-link-active,
+.sidenav a.active {
   background: var(--primary);
   color: var(--background-secondary);
 }
 
 .sidenav a:hover,
-.sidenav a.router-link-exact-active:hover,
-button:hover {
+.sidenav a.router-link-active:hover,
+.sidenav a.active:hover button:hover {
   transform: scale(1.05);
   background: var(--primary-dark);
   color: var(--background-secondary);

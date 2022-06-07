@@ -149,5 +149,32 @@
       "roles": ["CLIENTE"],
       "id": 2
     }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "items": [
+        {
+          "quantity": 2,
+          "product_id": 3
+        },
+        {
+          "quantity": 1,
+          "product_id": 2
+        }
+      ],
+      "total_price": "119.97",
+      "status": "EM PROCESSAMENTO",
+      "date": "2022-06-07",
+      "cep": "49020200",
+      "district": "Treze de Julho",
+      "city": "Aracaju",
+      "state": "SE",
+      "street": "Rua José Ramos da Silva",
+      "number": "123",
+      "complement": "",
+      "roles": ["ADMIN", "CLIENTE"]
+    }
   ]
 }

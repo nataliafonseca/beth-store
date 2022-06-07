@@ -1,19 +1,17 @@
 <template>
   <div id="app">
     <page-header />
-    <transition mode="out-in">
-      <loading-dots class="expand" v-if="loading" key="loading" />
-      <main v-else id="main">
-        <router-view class="view" v-slot="{ Component }">
-          <transition mode="out-in">
-            <component :is="Component" key="router-view" />
+    <router-view class="view" v-slot="{ Component }">
+      <transition mode="out-in">
+        <loading-dots class="expand" v-if="loading" key="loading" />
+        <main v-else id="main">
+          <component :is="Component" key="router-view" />
+          <transition name="cart">
+            <cart-sidebar v-show="productStore.isCartVisible" />
           </transition>
-        </router-view>
-        <transition name="cart">
-          <cart-sidebar v-show="productStore.isCartVisible" />
-        </transition>
-      </main>
-    </transition>
+        </main>
+      </transition>
+    </router-view>
     <page-footer />
   </div>
 </template>
@@ -22,6 +20,7 @@
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import { userStore } from "@/store/userStore";
+import { orderStore } from "@/store/orderStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
 import LoadingDots from "./components/LoadingDots.vue";
@@ -33,7 +32,7 @@ export default {
   },
   components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
-    ...mapStores(productStore, userStore),
+    ...mapStores(productStore, userStore, orderStore),
   },
   async created() {
     this.loading = true;
@@ -41,6 +40,7 @@ export default {
     await this.productStore.loadCategories();
     this.productStore.loadCart();
     this.userStore.loadUser();
+    await this.orderStore.loadOrders();
     this.loading = false;
   },
 };
@@ -63,6 +63,8 @@ export default {
   --text-lighter: #c5c5c5;
   --border: #c9c9c9;
   --border-light: #e8e8e8;
+  --box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+  --box-shadow-hover: 0 4px 8px rgba(30, 60, 90, 0.2);
 }
 
 * {
@@ -128,7 +130,7 @@ textarea {
   border-radius: 4px;
   border: 1px solid transparent;
   padding: 15px;
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+  box-shadow: var(--box-shadow);
   transition: all 0.3;
   font-size: 1rem;
   font-family: inherit;
@@ -154,7 +156,7 @@ select:disabled:hover,
 textarea:disabled:hover {
   background: var(--background-details);
   border: transparent;
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
+  box-shadow: var(--box-shadow);
 }
 
 .btn {
@@ -167,7 +169,7 @@ textarea:disabled:hover {
   text-align: center;
   font-family: inherit;
   font-size: 1rem;
-  box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
+  box-shadow: var(--box-shadow-hover);
   cursor: pointer;
   transition: all 0.3s;
 }

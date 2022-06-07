@@ -84,7 +84,7 @@ export const userStore = defineStore("user", {
         this.isAuthenticated = true;
         if (this.user.roles.includes("ADMIN")) this.isAdmin = true;
 
-        this.router.push({ name: "orders" });
+        this.router.push({ name: "home" });
       } catch (error) {
         toastError(error.message);
       }
@@ -153,7 +153,7 @@ export const userStore = defineStore("user", {
 
         localStorage.setItem("bethstore.user", JSON.stringify(this.user));
 
-        this.router.push({ name: "orders" });
+        this.router.push({ name: "home" });
       } catch (error) {
         localStorage.removeItem("bethstore.auth_token");
         localStorage.removeItem("bethstore.user");
