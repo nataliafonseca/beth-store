@@ -1,17 +1,19 @@
 <template>
   <div id="app">
     <page-header />
-    <main id="main">
-      <router-view class="view" v-slot="{ Component }">
-        <transition mode="out-in">
-          <loading-dots v-if="loading" key="loading" />
-          <component :is="Component" v-else key="router-view" />
+    <transition mode="out-in">
+      <loading-dots class="expand" v-if="loading" key="loading" />
+      <main v-else id="main">
+        <router-view class="view" v-slot="{ Component }">
+          <transition mode="out-in">
+            <component :is="Component" key="router-view" />
+          </transition>
+        </router-view>
+        <transition name="cart">
+          <cart-sidebar v-show="productStore.isCartVisible" />
         </transition>
-      </router-view>
-      <transition name="cart">
-        <cart-sidebar v-show="productStore.isCartVisible" />
-      </transition>
-    </main>
+      </main>
+    </transition>
     <page-footer />
   </div>
 </template>
@@ -37,6 +39,7 @@ export default {
     this.loading = true;
     await this.productStore.loadProducts();
     await this.productStore.loadCategories();
+    this.productStore.loadCart();
     this.userStore.loadUser();
     this.loading = false;
   },
@@ -112,13 +115,10 @@ img {
   flex: 1;
 }
 
-#main {
+#main,
+.expand {
   flex: 1;
   display: flex;
-}
-
-label {
-  margin-bottom: 5px;
 }
 
 input,

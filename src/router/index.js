@@ -33,10 +33,34 @@ const routes = [
       import(/* webpackChunkName: "register" */ "../views/RegisterView.vue"),
   },
   {
+    path: "/checkout",
+    name: "checkout",
+    component: () =>
+      import(/* webpackChunkName: "checkout" */ "../views/CheckoutView.vue"),
+  },
+  {
     path: "/profile",
     name: "profile",
     component: () =>
-      import(/* webpackChunkName: "profile" */ "../views/ProfileView.vue"),
+      import(/* webpackChunkName: "profile" */ "../views/User/ProfileView.vue"),
+    children: [
+      {
+        path: "",
+        name: "orders",
+        component: () =>
+          import(
+            /* webpackChunkName: "orders" */ "../views/User/OrdersView.vue"
+          ),
+      },
+      {
+        path: "update",
+        name: "profile-update",
+        component: () =>
+          import(
+            /* webpackChunkName: "order-list" */ "../views/User/ProfileUpdateView.vue"
+          ),
+      },
+    ],
   },
 ];
 

@@ -7,7 +7,7 @@
       <div class="user">
         <router-link
           v-if="userStore.isAuthenticated"
-          :to="{ name: 'profile' }"
+          :to="{ name: 'orders' }"
           class="btn"
           >{{ userStore.user.name.toUpperCase() }}</router-link
         >

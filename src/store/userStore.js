@@ -84,7 +84,7 @@ export const userStore = defineStore("user", {
         this.isAuthenticated = true;
         if (this.user.roles.includes("ADMIN")) this.isAdmin = true;
 
-        this.router.push({ name: "profile" });
+        this.router.push({ name: "orders" });
       } catch (error) {
         toastError(error.message);
       }
@@ -96,6 +96,17 @@ export const userStore = defineStore("user", {
         await this.fakeLogin({
           email: this.userForm.email,
           password: this.userForm.password,
+        });
+      } catch (error) {
+        toastError(error.message);
+      }
+    },
+
+    async fakeUpdate(id) {
+      try {
+        await fakeApi.put(`user/${id}`, {
+          ...this.userForm,
+          roles: ["CLIENTE"],
         });
       } catch (error) {
         toastError(error.message);
@@ -142,7 +153,7 @@ export const userStore = defineStore("user", {
 
         localStorage.setItem("bethstore.user", JSON.stringify(this.user));
 
-        this.router.push({ name: "profile" });
+        this.router.push({ name: "orders" });
       } catch (error) {
         localStorage.removeItem("bethstore.auth_token");
         localStorage.removeItem("bethstore.user");

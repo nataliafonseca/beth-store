@@ -12,10 +12,7 @@
         <span>Total:</span>
         <span class="total-price">{{ formatPrice(getTotal()) }}</span>
       </p>
-      <button class="btn clear-btn" @click.prevent="productStore.clearCart">
-        LIMPAR SACOLA
-      </button>
-      <button class="btn cart-btn">FINALIZAR PEDIDO</button>
+      <slot></slot>
     </div>
     <div class="empty-cart" v-else key="no-items">
       <p>
@@ -79,24 +76,6 @@ ul {
 .total-price {
   color: var(--accent);
   font-size: 1.2rem;
-}
-
-.cart-btn,
-.clear-btn {
-  margin: 10px auto;
-  width: calc(100% - 40px);
-}
-
-.clear-btn {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-.clear-btn:hover {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
 }
 
 .empty-cart {

@@ -1,46 +1,6 @@
 <template>
   <form class="user-form" @submit.prevent="submitForm">
     <div>
-      <label for="name">Nome</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        v-model="userStore.userForm.name"
-        required
-      />
-    </div>
-    <div>
-      <label for="name">CPF</label>
-      <input
-        type="text"
-        id="cpf"
-        name="cpf"
-        v-model="userStore.userForm.cpf"
-        required
-      />
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        v-model="userStore.userForm.email"
-        required
-      />
-    </div>
-    <div>
-      <label for="password">Senha</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        v-model="userStore.userForm.password"
-        required
-      />
-    </div>
-    <div>
       <label for="cep">CEP</label>
       <input
         type="text"
@@ -108,16 +68,6 @@
         name="state"
         v-model="userStore.userForm.state"
         disabled
-      />
-    </div>
-    <div>
-      <label for="phone">Telefone</label>
-      <input
-        type="text"
-        id="phone"
-        name="phone"
-        v-model="userStore.userForm.phone"
-        required
       />
     </div>
     <slot />

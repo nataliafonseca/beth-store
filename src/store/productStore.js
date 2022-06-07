@@ -145,5 +145,8 @@ export const productStore = defineStore("product", {
     openCart() {
       this.isCartVisible = true;
     },
+    closeCart() {
+      this.isCartVisible = false;
+    },
   },
 });
