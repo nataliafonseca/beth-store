@@ -203,4 +203,12 @@ img {
   align-self: center;
   font-size: 1.1rem;
 }
+
+.no-orders {
+  margin: 50px 20px;
+}
+
+.no-orders p {
+  text-align: center;
+}
 </style>

@@ -131,7 +131,10 @@
       "street": "Rua José Ramos da Silva",
       "number": "123",
       "complement": "",
-      "roles": ["ADMIN", "CLIENTE"]
+      "roles": [
+        "ADMIN",
+        "CLIENTE"
+      ]
     },
     {
       "email": "nat@nat.nat",
@@ -146,8 +149,46 @@
       "street": "Avenida Professor Acrísio Cruz",
       "number": "123",
       "complement": "",
-      "roles": ["CLIENTE"],
+      "roles": [
+        "CLIENTE"
+      ],
       "id": 2
+    },
+    {
+      "email": "nat@nat.nat",
+      "name": "Natália Braga da Fonseca",
+      "password": "nat",
+      "phone": "7999999999",
+      "cpf": "03563117594",
+      "cep": "49020210",
+      "district": "Salgado Filho",
+      "city": "Aracaju",
+      "state": "SE",
+      "street": "Avenida Professor Acrísio Cruz",
+      "number": "445",
+      "complement": "",
+      "roles": [
+        "CLIENTE"
+      ],
+      "id": 3
+    },
+    {
+      "email": "naadsdft@nat.nat",
+      "name": "Natália Braga da Fonseca",
+      "password": "nat",
+      "phone": "7999999999",
+      "cpf": "03563117594",
+      "cep": "49020210",
+      "district": "Salgado Filho",
+      "city": "Aracaju",
+      "state": "SE",
+      "street": "Avenida Professor Acrísio Cruz",
+      "number": "445",
+      "complement": "",
+      "roles": [
+        "CLIENTE"
+      ],
+      "id": 4
     }
   ],
   "orders": [

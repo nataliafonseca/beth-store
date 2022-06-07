@@ -9,7 +9,7 @@
           v-if="userStore.isAuthenticated"
           :to="{ name: 'orders' }"
           class="btn"
-          >{{ userStore.user.name.toUpperCase() }}</router-link
+          >{{ userStore.user.name.split(" ")[0].toUpperCase() }}</router-link
         >
         <router-link v-else :to="{ name: 'login' }" class="btn"
           >LOGIN</router-link

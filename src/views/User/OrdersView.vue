@@ -1,5 +1,5 @@
 <template>
-  <div class="orders-view">
+  <div class="orders-view" v-if="this.orders.length > 0" key="has-orders">
     <router-link
       :to="{ name: 'order-details', params: { id: order.id } }"
       class="order"
@@ -26,6 +26,9 @@
         <p class="status" :class="status(order.status)">{{ order.status }}</p>
       </div>
     </router-link>
+  </div>
+  <div class="no-orders" v-else key="no-orders">
+    <p>Poxa, parece que você ainda não fez nenhum pedido :(</p>
   </div>
 </template>
 

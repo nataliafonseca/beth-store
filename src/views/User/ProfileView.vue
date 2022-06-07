@@ -88,7 +88,8 @@ button {
 
 .sidenav a:hover,
 .sidenav a.router-link-active:hover,
-.sidenav a.active:hover button:hover {
+.sidenav a.active:hover,
+button:hover {
   transform: scale(1.05);
   background: var(--primary-dark);
   color: var(--background-secondary);
