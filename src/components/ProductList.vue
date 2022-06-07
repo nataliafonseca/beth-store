@@ -3,8 +3,8 @@
     <transition mode="out-in">
       <loading-dots v-if="loading" key="loading" />
       <div
-        v-else-if="pageProducts.length > 0"
         class="products"
+        v-else-if="pageProducts.length > 0"
         key="product-list"
       >
         <product-card
@@ -56,13 +56,16 @@ export default {
   },
 
   watch: {
-    url() {
+    async url() {
       this.loading = true;
+
       this.productStore.filterProducts(
         this.url.category ?? "-1",
         this.url.search ?? ""
       );
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 10);
     },
   },
   created() {

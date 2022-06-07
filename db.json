@@ -293,6 +293,36 @@
       "total_price": "119.97",
       "status": "EM PROCESSAMENTO",
       "date": "2022-06-07"
+    },
+    {
+      "items": [
+        {
+          "product_id": 1,
+          "count": 1
+        }
+      ],
+      "status": "EM PROCESSAMENTO",
+      "total_price": 39.99,
+      "date": "2022-06-07T19:08:45.331Z",
+      "user": {
+        "email": "naadsdft@nat.nat",
+        "name": "Natália Braga da Fonseca",
+        "password": "nat",
+        "phone": "7999999999",
+        "cpf": "03563117594",
+        "cep": "49020210",
+        "district": "Salgado Filho",
+        "city": "Aracaju",
+        "state": "SE",
+        "street": "Avenida Professor Acrísio Cruz",
+        "number": "445",
+        "complement": "",
+        "roles": [
+          "CLIENTE"
+        ],
+        "id": 4
+      },
+      "id": 3
     }
   ]
 }

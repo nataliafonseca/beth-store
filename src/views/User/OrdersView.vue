@@ -79,7 +79,7 @@ export default {
 }
 .order {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: auto auto 200px;
   gap: 20px;
   background: var(--background-secondary);
   box-shadow: var(--box-shadow);

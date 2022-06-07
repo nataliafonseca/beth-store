@@ -5,7 +5,9 @@
       <transition mode="out-in">
         <loading-dots class="expand" v-if="loading" key="loading" />
         <main v-else id="main">
-          <component :is="Component" key="router-view" />
+          <transition mode="out-in">
+            <component :is="Component" key="router-view" />
+          </transition>
           <transition name="cart">
             <cart-sidebar v-show="productStore.isCartVisible" />
           </transition>
