@@ -9,10 +9,10 @@
           v-if="userStore.isAdmin"
           :to="{ name: 'product-table' }"
           class="btn"
-          >{{ userStore.user.name.split(" ")[0].toUpperCase() }}</router-link
+          >ADMIN</router-link
         >
         <router-link
-          v-else-if="userStore.isAuthenticated"
+          v-if="userStore.isAuthenticated"
           :to="{ name: 'orders' }"
           class="btn"
           >{{ userStore.user.name.split(" ")[0].toUpperCase() }}</router-link

@@ -96,12 +96,11 @@ export const userStore = defineStore("user", {
         tipo: 1,
       };
       try {
-        // await api.post("usuarios", newUser);
-        console.log(newUser);
-        // await this.login({
-        //   email: this.userForm.email,
-        //   password: this.userForm.password,
-        // });
+        await api.post("usuarios", newUser);
+        await this.login({
+          email: this.userForm.email,
+          password: this.userForm.password,
+        });
       } catch (error) {
         toastError(error.response.data.message);
       }
@@ -110,10 +109,29 @@ export const userStore = defineStore("user", {
     async update(id) {
       try {
         console.log(id);
-        // await api.put(`user/${id}`, {
-        //   ...this.userForm,
-        //   roles: ["CLIENTE"],
-        // });
+        await api.put(
+          `usuarios`,
+          {
+            bairro: this.userForm.district,
+            cep: numbersOnly(this.userForm.cep),
+            cidade: this.userForm.city,
+            complemento: this.userForm.complement,
+            cpfOuCnpj: numbersOnly(this.userForm.cpf),
+            email: this.userForm.email,
+            estado: this.userForm.state,
+            logradouro: this.userForm.street,
+            nome: this.userForm.name,
+            numero: this.userForm.number,
+            senha: this.userForm.password,
+            telefone1: numbersOnly(this.userForm.phone),
+            tipo: 1,
+          },
+          {
+            headers: {
+              Authorization: this.authToken,
+            },
+          }
+        );
       } catch (error) {
         toastError(error.message);
       }

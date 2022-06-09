@@ -1,5 +1,5 @@
 <template>
-  <form class="user-form" @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm">
     <!-- category_id -->
     <div>
       <label for="category_id">Categoria</label>
@@ -177,6 +177,18 @@
       />
     </div>
 
+    <!-- picture -->
+    <div v-if="isUpdate">
+      <label for="picture">Imagem</label>
+      <input
+        type="file"
+        id="picture"
+        name="picture"
+        @change="onFileChange"
+        accept="image/png, image/jpeg"
+      />
+    </div>
+
     <slot />
   </form>
 </template>
@@ -197,12 +209,20 @@ export default {
   },
   computed: {
     ...mapStores(productStore),
+    isUpdate() {
+      return this.$route.name === "product-update";
+    },
   },
   methods: {
     async submitForm() {
       const isFormCorrect = await this.v$.$validate();
       if (!isFormCorrect) return;
       this.$emit("submit-form");
+    },
+    onFileChange(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (!files.length) return;
+      this.productStore.productForm.picture = files;
     },
   },
   validations() {

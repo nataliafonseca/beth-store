@@ -80,7 +80,7 @@ section {
   display: grid;
   max-width: 1000px;
   margin: 0 auto;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto 1fr;
   align-items: center;
   gap: 0 50px;
 }
@@ -95,7 +95,8 @@ h1 {
 
 .image img {
   height: 360px;
-  width: 500px;
+  width: auto;
+  max-width: 500px;
   object-fit: scale-down;
   object-position: center;
 }

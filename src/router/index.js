@@ -82,7 +82,7 @@ const routes = [
         name: "product-table",
         component: () =>
           import(
-            /* webpackChunkName: "product-table" */ "../views/Admin/ProductTableView.vue"
+            /* webpackChunkName: "product-table" */ "../views/Admin/Product/ProductTableView.vue"
           ),
       },
       {
@@ -90,7 +90,7 @@ const routes = [
         name: "product-create",
         component: () =>
           import(
-            /* webpackChunkName: "product-create" */ "../views/Admin/ProductCreateView.vue"
+            /* webpackChunkName: "product-create" */ "../views/Admin/Product/ProductCreateView.vue"
           ),
       },
       {
@@ -99,7 +99,32 @@ const routes = [
         props: true,
         component: () =>
           import(
-            /* webpackChunkName: "product-update" */ "../views/Admin/ProductUpdateView.vue"
+            /* webpackChunkName: "product-update" */ "../views/Admin/Product/ProductUpdateView.vue"
+          ),
+      },
+      {
+        path: "categories",
+        name: "category-table",
+        component: () =>
+          import(
+            /* webpackChunkName: "category-table" */ "../views/Admin/Category/CategoryTableView.vue"
+          ),
+      },
+      {
+        path: "categories/create",
+        name: "category-create",
+        component: () =>
+          import(
+            /* webpackChunkName: "category-create" */ "../views/Admin/Category/CategoryCreateView.vue"
+          ),
+      },
+      {
+        path: "categories/update/:id",
+        name: "category-update",
+        props: true,
+        component: () =>
+          import(
+            /* webpackChunkName: "category-update" */ "../views/Admin/Category/CategoryUpdateView.vue"
           ),
       },
     ],

@@ -21,6 +21,7 @@ export const productStore = defineStore("product", {
       size: "",
       specs: "",
       category_id: "",
+      picture: [],
     },
     categoryForm: {
       description: "",
@@ -91,30 +92,33 @@ export const productStore = defineStore("product", {
             },
           }
         );
+
         await this.loadProducts();
         toastSuccess("Produto cadastrado com sucesso!");
         this.router.push({ name: "product-table" });
+
+        setTimeout(() => {
+          this.clearProductForm();
+        }, 1000);
       } catch (err) {
         toastError(err.response.data.message);
       }
     },
 
-    // async uploadProductPicture(id) {
-    //   const formData = new FormData();
-    //   formData.append("file", this.productForm.picture[0]);
-    //   try {
-    //     await api.post(`produtos/picture/${id}`, formData, {
-    //       headers: {
-    //         "content-type": "multipart/form-data",
-    //       },
-    //     });
-    //     await this.loadProducts();
-    //     toastSuccess("Imagem salva com sucesso!");
-    //     // router.push({ name: "product-table" });
-    //   } catch (err) {
-    //     toastError(err.response.data.message);
-    //   }
-    // },
+    async uploadProductPicture(id) {
+      const formData = new FormData();
+      formData.append("file", this.productForm.picture[0]);
+      try {
+        await api.post(`produtos/picture/${id}`, formData, {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        });
+        await this.loadProducts();
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
 
     async updateProduct(id) {
       const updatedProduct = {
@@ -138,21 +142,34 @@ export const productStore = defineStore("product", {
         });
 
         await this.loadProducts();
+
+        if (this.productForm.picture.length) this.uploadProductPicture(id);
+
         toastSuccess("Produto atualizado com sucesso!");
         this.router.push({ name: "product-table" });
+
+        setTimeout(() => {
+          this.clearProductForm();
+        }, 1000);
       } catch (err) {
         toastError(err.response.data.message);
       }
     },
 
     async deleteProduct(id) {
-      try {
-        await api.delete(`produtos/${id}`);
-        await this.loadProducts();
-        toastSuccess("Produto removido com sucesso!");
-        // router.push({ name: "product-table" });
-      } catch (err) {
-        toastError(err.response.data.message);
+      if (
+        window.confirm(
+          "Tem certeza que deseja remover o produto? Essa ação é irreversível!"
+        )
+      ) {
+        try {
+          await api.delete(`produtos/${id}`);
+          await this.loadProducts();
+          toastSuccess("Produto removido com sucesso!");
+          // router.push({ name: "product-table" });
+        } catch (err) {
+          toastError(err.response.data.message);
+        }
       }
     },
 
@@ -181,6 +198,7 @@ export const productStore = defineStore("product", {
         size: "",
         specs: "",
         category_id: "",
+        picture: [],
       };
     },
 
@@ -198,12 +216,17 @@ export const productStore = defineStore("product", {
     async createCategory() {
       try {
         await api.post("categorias", {
-          nome: this.productForm.description,
-          setor: this.productForm.sector,
+          nome: this.createCategory.description,
+          setor: this.createCategory.sector,
         });
+
         await this.loadCategories();
         toastSuccess("Categoria cadastrada com sucesso!");
-        // router.push({ name: "category-table" });
+        this.router.push({ name: "category-table" });
+
+        setTimeout(() => {
+          this.clearCategoryForm();
+        }, 1000);
       } catch (err) {
         toastError(err.response.data.message);
       }
@@ -212,25 +235,36 @@ export const productStore = defineStore("product", {
     async updateCategory(id) {
       try {
         await api.put(`categorias/${id}`, {
-          nome: this.productForm.description,
-          setor: this.productForm.sector,
+          nome: this.categoryForm.description,
+          setor: this.categoryForm.sector,
         });
+
         await this.loadCategories();
-        toastSuccess("Categoria cadastrada com sucesso!");
-        // router.push({ name: "category-table" });
+        toastSuccess("Categoria atualizada com sucesso!");
+        this.router.push({ name: "category-table" });
+
+        setTimeout(() => {
+          this.clearCategoryForm();
+        }, 1000);
       } catch (err) {
         toastError(err.response.data.message);
       }
     },
 
     async deleteCategory(id) {
-      try {
-        await api.delete(`categorias/${id}`);
-        await this.loadCategories();
-        toastSuccess("Categoria removida com sucesso!");
-        // router.push({ name: "category-table" });
-      } catch (err) {
-        toastError(err.response.data.message);
+      if (
+        window.confirm(
+          "Tem certeza que deseja remover a categoria? Essa ação é irreversível!"
+        )
+      ) {
+        try {
+          await api.delete(`categorias/${id}`);
+          await this.loadCategories();
+          toastSuccess("Categoria removida com sucesso!");
+          // router.push({ name: "category-table" });
+        } catch (err) {
+          toastError(err.response.data.message);
+        }
       }
     },
 

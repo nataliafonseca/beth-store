@@ -1,7 +1,10 @@
 <template>
-  <product-form @submit-form="updateProduct">
-    <button class="btn" type="submit">ATUALIZAR PRODUTO</button>
-  </product-form>
+  <section>
+    <h2>Editar Produto</h2>
+    <product-form @submit-form="updateProduct">
+      <button class="btn" type="submit">ATUALIZAR PRODUTO</button>
+    </product-form>
+  </section>
 </template>
 
 <script>
@@ -28,7 +31,13 @@ export default {
 </script>
 
 <style scoped>
+h2 {
+  text-align: center;
+  color: var(--primary);
+  margin: 20px 0;
+}
+
 button {
-  margin: 20px 40px;
+  margin: 20px 0 40px;
 }
 </style>

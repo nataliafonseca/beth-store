@@ -11,16 +11,9 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'profile-update' }"
+            :to="{ name: 'category-table' }"
             :class="{ active: categoriesIsActive }"
             >CATEGORIAS</router-link
-          >
-        </li>
-        <li>
-          <router-link
-            :to="{ name: 'profile-update' }"
-            :class="{ active: ordersIsActive }"
-            >PEDIDOS</router-link
           >
         </li>
         <li>
@@ -31,7 +24,11 @@
           >
         </li>
         <li>
-          <button @click.prevent="userStore.logout">SAIR</button>
+          <router-link
+            :to="{ name: 'profile-update' }"
+            :class="{ active: ordersIsActive }"
+            >PEDIDOS</router-link
+          >
         </li>
       </ul>
     </nav>
@@ -84,7 +81,7 @@ export default {
 .nav ul {
   display: grid;
   gap: 10px;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   margin-bottom: 20px;
 }
 

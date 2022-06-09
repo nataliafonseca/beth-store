@@ -1,8 +1,8 @@
 <template>
   <section>
     <header>
-      <h2>Lista de Produtos</h2>
-      <router-link :to="{ name: 'product-create' }" class="btn">
+      <h2>Lista de Categorias</h2>
+      <router-link :to="{ name: 'category-create' }" class="btn">
         ADICIONAR
       </router-link>
     </header>
@@ -11,46 +11,20 @@
         <tr>
           <th>ID</th>
           <th>DESCRIÇÃO</th>
-          <th>MARCA</th>
-          <th>MODELO</th>
-          <th>PREÇO</th>
-          <th>CATEGORIA</th>
+          <th>SETOR</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="product in productStore.products" :key="product.id">
-          <td>{{ product.id }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.brand }}</td>
-          <td>{{ product.model }}</td>
-          <td>{{ toPriceString(product.price) }}</td>
+        <tr v-for="category in productStore.categories" :key="category.id">
+          <td>{{ category.id }}</td>
+          <td>{{ category.description }}</td>
           <td>
-            {{ productStore.getCategoryById(product.category_id).description }}
+            {{ category.sector }}
           </td>
           <td class="actions">
             <button
-              @click.prevent="onView(product.id)"
-              class="btn icon-button"
-              aria-label="visualizar"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M10 21h7a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v11m0 5l4.879-4.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242z"
-                />
-              </svg>
-            </button>
-            <button
-              @click.prevent="onEdit(product.id)"
+              @click.prevent="onEdit(category.id)"
               class="btn icon-button"
               aria-label="editar"
             >
@@ -70,7 +44,7 @@
               </svg>
             </button>
             <button
-              @click.prevent="onRemove(product.id)"
+              @click.prevent="onRemove(category.id)"
               class="btn icon-button"
               aria-label="remover"
             >
@@ -99,29 +73,19 @@
 <script>
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
-import { toPriceString } from "@/utils/textMasks";
 
 export default {
-  name: "ProductTableView",
+  name: "CategoryTableView",
   computed: {
     ...mapStores(productStore),
   },
   methods: {
-    onView(id) {
-      this.$router.push({ name: "product", params: { id } });
-    },
     onEdit(id) {
-      this.$router.push({ name: "product-update", params: { id } });
+      this.$router.push({ name: "category-update", params: { id } });
     },
     async onRemove(id) {
-      if (
-        window.confirm(
-          "Tem certeza que deseja remover o produto? Essa ação é irreversível!"
-        )
-      )
-        await this.productStore.deleteProduct(id);
+      await this.productStore.deleteCategory(id);
     },
-    toPriceString,
   },
 };
 </script>
