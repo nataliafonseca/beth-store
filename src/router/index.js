@@ -71,6 +71,39 @@ const routes = [
       },
     ],
   },
+  {
+    path: "/admin",
+    name: "admin",
+    component: () =>
+      import(/* webpackChunkName: "admin" */ "../views/Admin/AdminView.vue"),
+    children: [
+      {
+        path: "products",
+        name: "product-table",
+        component: () =>
+          import(
+            /* webpackChunkName: "product-table" */ "../views/Admin/ProductTableView.vue"
+          ),
+      },
+      {
+        path: "products/create",
+        name: "product-create",
+        component: () =>
+          import(
+            /* webpackChunkName: "product-create" */ "../views/Admin/ProductCreateView.vue"
+          ),
+      },
+      {
+        path: "products/update/:id",
+        name: "product-update",
+        props: true,
+        component: () =>
+          import(
+            /* webpackChunkName: "product-update" */ "../views/Admin/ProductUpdateView.vue"
+          ),
+      },
+    ],
+  },
 ];
 
 const router = createRouter({

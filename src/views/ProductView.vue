@@ -2,7 +2,7 @@
   <loading-dots v-if="loading" />
   <section v-else>
     <div class="grid">
-      <div class="imagem">
+      <div class="image">
         <img :src="product.picture" alt="" />
       </div>
       <div class="info">
@@ -20,14 +20,14 @@
             {{ category.description }}
           </router-link>
         </p>
-        <p class="price">{{ formatPrice(product.price) }}</p>
+        <p class="price">{{ toPriceString(product.price) }}</p>
         <add-to-cart-button class="add-button" :product="product" />
         <h2>Detalhes</h2>
         <p><span>Marca:</span> {{ product.brand }}</p>
         <p><span>Modelo:</span> {{ product.model }}</p>
         <p><span>Tamanho:</span> {{ product.size }}</p>
       </div>
-      <div class="specs">
+      <div class="specs" v-if="product.specs">
         <h2>Especificações Técnicas</h2>
         <p>{{ product.specs }}</p>
       </div>
@@ -40,6 +40,7 @@ import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import AddToCartButton from "../components/AddToCartButton.vue";
 import LoadingDots from "../components/LoadingDots.vue";
+import { toPriceString } from "@/utils/textMasks";
 
 export default {
   components: { AddToCartButton, LoadingDots },
@@ -54,19 +55,7 @@ export default {
       return this.productStore.getCartItemById(this.product.id);
     },
   },
-  methods: {
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
-  },
+  methods: { toPriceString },
   async created() {
     this.loading = true;
     this.product = await this.productStore.getProductById(this.id);
@@ -101,13 +90,13 @@ section {
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
 
-.imagem img {
+.image img {
   height: 360px;
   width: 500px;
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center;
 }
 

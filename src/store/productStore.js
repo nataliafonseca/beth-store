@@ -1,5 +1,9 @@
 import { defineStore } from "pinia";
-import { api, fakeApi } from "@/services/api";
+import { api } from "@/services/api";
+import { toastError, toastSuccess } from "../utils/toast";
+import { toValidPrice, toPriceString } from "../utils/textMasks";
+import { mapStores } from "pinia";
+import { userStore } from "@/store/userStore";
 
 export const productStore = defineStore("product", {
   state: () => ({
@@ -8,41 +12,243 @@ export const productStore = defineStore("product", {
     visibleProducts: [],
     cart: [],
     isCartVisible: false,
+    productForm: {
+      description: "",
+      brand: "",
+      model: "",
+      price: "",
+      quantity: "",
+      size: "",
+      specs: "",
+      category_id: "",
+    },
+    categoryForm: {
+      description: "",
+      sector: "",
+    },
   }),
+  getters: mapStores(userStore),
 
   actions: {
     loadCart() {
       const existingCart = localStorage.getItem("bethstore.cart");
       if (existingCart) this.cart = JSON.parse(existingCart);
     },
+
     async loadProducts() {
       this.loadCart();
 
-      const response = await fakeApi.get("/products");
-      const products = response.data;
+      const response = await api.get("/produtos");
 
-      products.map((product) => {
-        const productInCart = this.cart.find(
-          (item) => item.product_id === product.id
-        );
+      this.products = response.data
+        .map((p) => {
+          const productInCart = this.cart.find(
+            (item) => item.product_id === p.id
+          );
 
-        if (productInCart)
-          product.remaining = product.quantity - productInCart.count;
-        else product.remaining = product.quantity;
+          if (productInCart)
+            p.remaining = p.estoque.quantidade - productInCart.count;
+          else p.remaining = p.estoque.quantidade;
 
-        return product;
-      });
+          const product = {
+            id: p.id,
+            category_id: 1,
+            description: p.nome,
+            brand: p.marca,
+            model: p.modelo,
+            price: p.preco,
+            quantity: p.estoque.quantidade,
+            remaining: p.remaining,
+            size: p.estoque.tamanho,
+            specs: p.informacoesTecnicas,
+            picture: p.imageUrl,
+          };
 
-      this.products = products;
+          return product;
+        })
+        .sort((a, b) => (b.id < a.id ? 1 : -1));
     },
+
+    async createProduct() {
+      try {
+        await api.post(
+          "produtos",
+          {
+            nome: this.productForm.description,
+            marca: this.productForm.brand,
+            modelo: this.productForm.model,
+            preco: toValidPrice(this.productForm.price),
+            quantidade: parseInt(this.productForm.quantity),
+            tamanho: this.productForm.size,
+            informacoesTecnicas: this.productForm.specs,
+            categoria: {
+              id: this.productForm.category_id,
+            },
+          },
+          {
+            headers: {
+              Authorization: this.userStore.authToken,
+            },
+          }
+        );
+        await this.loadProducts();
+        toastSuccess("Produto cadastrado com sucesso!");
+        this.router.push({ name: "product-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    // async uploadProductPicture(id) {
+    //   const formData = new FormData();
+    //   formData.append("file", this.productForm.picture[0]);
+    //   try {
+    //     await api.post(`produtos/picture/${id}`, formData, {
+    //       headers: {
+    //         "content-type": "multipart/form-data",
+    //       },
+    //     });
+    //     await this.loadProducts();
+    //     toastSuccess("Imagem salva com sucesso!");
+    //     // router.push({ name: "product-table" });
+    //   } catch (err) {
+    //     toastError(err.response.data.message);
+    //   }
+    // },
+
+    async updateProduct(id) {
+      const updatedProduct = {
+        nome: this.productForm.description,
+        marca: this.productForm.brand,
+        modelo: this.productForm.model,
+        preco: toValidPrice(this.productForm.price),
+        quantidade: parseInt(this.productForm.quantity),
+        tamanho: this.productForm.size,
+        informacoesTecnicas: this.productForm.specs,
+        categoria: {
+          id: this.productForm.category_id,
+        },
+      };
+
+      try {
+        await api.put(`produtos/${id}`, updatedProduct, {
+          headers: {
+            Authorization: this.userStore.authToken,
+          },
+        });
+
+        await this.loadProducts();
+        toastSuccess("Produto atualizado com sucesso!");
+        this.router.push({ name: "product-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    async deleteProduct(id) {
+      try {
+        await api.delete(`produtos/${id}`);
+        await this.loadProducts();
+        toastSuccess("Produto removido com sucesso!");
+        // router.push({ name: "product-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    fillProductForm(id) {
+      const product = this.getProductById(id);
+
+      this.productForm = {
+        description: product.description,
+        brand: product.brand,
+        model: product.model,
+        price: toPriceString(product.price),
+        quantity: product.quantity,
+        size: product.size,
+        specs: product.specs,
+        category_id: product.category_id,
+      };
+    },
+
+    clearProductForm() {
+      this.productForm = {
+        description: "",
+        brand: "",
+        model: "",
+        price: "",
+        quantity: "",
+        size: "",
+        specs: "",
+        category_id: "",
+      };
+    },
+
     async loadCategories() {
       const response = await api.get("/categorias");
-      this.categories = response.data.map((category) => ({
-        id: category.id,
-        description: category.nome,
-        sector: category.setor,
-      }));
+      this.categories = response.data
+        .map((category) => ({
+          id: category.id,
+          description: category.nome,
+          sector: category.setor,
+        }))
+        .sort((a, b) => (b.id < a.id ? 1 : -1));
     },
+
+    async createCategory() {
+      try {
+        await api.post("categorias", {
+          nome: this.productForm.description,
+          setor: this.productForm.sector,
+        });
+        await this.loadCategories();
+        toastSuccess("Categoria cadastrada com sucesso!");
+        // router.push({ name: "category-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    async updateCategory(id) {
+      try {
+        await api.put(`categorias/${id}`, {
+          nome: this.productForm.description,
+          setor: this.productForm.sector,
+        });
+        await this.loadCategories();
+        toastSuccess("Categoria cadastrada com sucesso!");
+        // router.push({ name: "category-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    async deleteCategory(id) {
+      try {
+        await api.delete(`categorias/${id}`);
+        await this.loadCategories();
+        toastSuccess("Categoria removida com sucesso!");
+        // router.push({ name: "category-table" });
+      } catch (err) {
+        toastError(err.response.data.message);
+      }
+    },
+
+    fillCategoryForm(id) {
+      const category = this.getCategoryById(id);
+      this.categoryForm = {
+        description: category.description,
+        sector: category.sector,
+      };
+    },
+
+    clearCategoryForm() {
+      this.categoryForm = {
+        description: "",
+        sector: "",
+      };
+    },
+
     filterProducts(category, search) {
       let products = this.products;
 
@@ -65,19 +271,19 @@ export const productStore = defineStore("product", {
 
       this.visibleProducts = products;
     },
+
     getProductById(id) {
       return this.products.find((product) => product.id === parseInt(id));
     },
-    async getCategoryById(id) {
-      if (this.categories.length === 0) {
-        await this.loadCategories();
-      }
 
+    getCategoryById(id) {
       return this.categories.find((category) => category.id === parseInt(id));
     },
+
     getCartItemById(id) {
       return this.cart.find((item) => item.product_id === id);
     },
+
     addToCart(product_id) {
       const product = this.products.find(
         (product) => product.id === product_id
@@ -98,6 +304,7 @@ export const productStore = defineStore("product", {
 
       localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
+
     subtractFromCart(product_id) {
       const product = this.products.find(
         (product) => product.id === product_id
@@ -119,6 +326,7 @@ export const productStore = defineStore("product", {
 
       localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
+
     removeFromCart(product_id) {
       this.cart = this.cart.filter((item) => item.product_id !== product_id);
 
@@ -131,6 +339,7 @@ export const productStore = defineStore("product", {
 
       localStorage.setItem("bethstore.cart", JSON.stringify(this.cart));
     },
+
     clearCart() {
       localStorage.removeItem("bethstore.cart");
       this.cart = [];
@@ -139,12 +348,15 @@ export const productStore = defineStore("product", {
         return product;
       });
     },
+
     toggleCart() {
       this.isCartVisible = !this.isCartVisible;
     },
+
     openCart() {
       this.isCartVisible = true;
     },
+
     closeCart() {
       this.isCartVisible = false;
     },

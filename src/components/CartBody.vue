@@ -10,7 +10,7 @@
       </ul>
       <p class="total">
         <span>Total:</span>
-        <span class="total-price">{{ formatPrice(getTotal()) }}</span>
+        <span class="total-price">{{ toPriceString(getTotal()) }}</span>
       </p>
       <slot></slot>
     </div>
@@ -26,6 +26,7 @@
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import CartItem from "./CartItem.vue";
+import { toPriceString } from "@/utils/textMasks";
 
 export default {
   name: "CartSidebar",
@@ -43,17 +44,7 @@ export default {
         return totalPrice + subtotal;
       }, 0);
     },
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
+    toPriceString,
   },
 };
 </script>

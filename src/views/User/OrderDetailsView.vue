@@ -26,7 +26,7 @@
       </div>
       <div class="total">
         <h3>TOTAL</h3>
-        <p>{{ formatPrice(order.total_price) }}</p>
+        <p>{{ toPriceString(order.total_price) }}</p>
       </div>
       <ul>
         <li v-for="item in order.items" :key="item.product.id">
@@ -36,10 +36,12 @@
               {{ item.product.description }}
             </p>
             <p class="quantity">Quantidade: {{ item.quantity }}</p>
-            <p class="product-price">{{ formatPrice(item.product.price) }}</p>
+            <p class="product-price">
+              {{ toPriceString(item.product.price) }}
+            </p>
           </div>
           <p class="item-price">
-            {{ formatPrice(item.quantity * item.product.price) }}
+            {{ toPriceString(item.quantity * item.product.price) }}
           </p>
         </li>
       </ul>
@@ -50,6 +52,7 @@
 <script>
 import { mapStores } from "pinia";
 import { orderStore } from "@/store/orderStore";
+import { toPriceString } from "@/utils/textMasks";
 
 export default {
   name: "OrderDetailsView",
@@ -64,17 +67,6 @@ export default {
     ...mapStores(orderStore),
   },
   methods: {
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
     status(status) {
       if (status === "EM PROCESSAMENTO") {
         return "pending";
@@ -83,6 +75,7 @@ export default {
       }
       return "complete";
     },
+    toPriceString,
   },
   created() {
     this.order = this.orderStore.getOrderById(parseInt(this.id));
@@ -118,7 +111,7 @@ h3 {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: end;
+  align-items: flex-end;
   margin-bottom: 20px;
 }
 
@@ -181,7 +174,7 @@ li + li {
 img {
   height: 70px;
   width: 100px;
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center;
 }
 

@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     async updateUser() {
-      await this.userStore.fakeUpdate(this.userStore.user.id);
+      await this.userStore.update(this.userStore.user.id);
     },
   },
 };

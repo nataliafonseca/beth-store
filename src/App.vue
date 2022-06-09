@@ -161,6 +161,11 @@ textarea:disabled:hover {
   box-shadow: var(--box-shadow);
 }
 
+.input-errors {
+  color: #bd2c36;
+  margin-top: 3px;
+}
+
 .btn {
   display: block;
   padding: 10px 30px;

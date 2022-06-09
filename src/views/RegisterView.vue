@@ -24,7 +24,7 @@ export default {
   },
   methods: {
     async registerUser() {
-      await this.userStore.fakeRegister();
+      await this.userStore.register();
     },
   },
 };

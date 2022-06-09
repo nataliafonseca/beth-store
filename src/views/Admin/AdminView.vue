@@ -1,17 +1,33 @@
 <template>
-  <section class="profile">
-    <nav class="sidenav">
+  <section class="admin">
+    <nav class="nav">
       <ul>
         <li>
           <router-link
+            :to="{ name: 'product-table' }"
+            :class="{ active: productsIsActive }"
+            >PRODUTOS</router-link
+          >
+        </li>
+        <li>
+          <router-link
+            :to="{ name: 'profile-update' }"
+            :class="{ active: categoriesIsActive }"
+            >CATEGORIAS</router-link
+          >
+        </li>
+        <li>
+          <router-link
+            :to="{ name: 'profile-update' }"
             :class="{ active: ordersIsActive }"
-            :to="{ name: 'orders' }"
             >PEDIDOS</router-link
           >
         </li>
         <li>
-          <router-link :to="{ name: 'profile-update' }"
-            >ATUALIZAR CADASTRO</router-link
+          <router-link
+            :to="{ name: 'profile-update' }"
+            :class="{ active: clientsIsActive }"
+            >CLIENTES</router-link
           >
         </li>
         <li>
@@ -32,20 +48,27 @@ import { mapStores } from "pinia";
 import { userStore } from "@/store/userStore";
 
 export default {
-  name: "ProfileView",
+  name: "AdminView",
   computed: {
     ...mapStores(userStore),
+    productsIsActive() {
+      return this.$route.path.includes("/admin/products");
+    },
+    categoriesIsActive() {
+      return this.$route.path.includes("/admin/categories");
+    },
     ordersIsActive() {
-      return this.$route.path.includes("/profile/orders");
+      return this.$route.path.includes("/admin/orders");
+    },
+    clientsIsActive() {
+      return this.$route.path.includes("/admin/clients");
     },
   },
 };
 </script>
 
 <style scoped>
-.profile {
-  display: grid;
-  grid-template-columns: 230px 1fr;
+.admin {
   max-width: 1000px;
   margin-top: 40px;
   margin-left: auto;
@@ -58,14 +81,22 @@ export default {
   width: 100%;
 }
 
+.nav ul {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5, 1fr);
+  margin-bottom: 20px;
+}
+
 @media screen and (max-width: 700px) {
-  section {
+  .nav ul {
     grid-template-columns: 1fr;
     margin-top: 20px;
+    gap: 0px;
   }
 }
 
-.sidenav a,
+.nav a,
 button {
   padding: 15px;
   display: block;
@@ -80,15 +111,15 @@ button {
   cursor: pointer;
 }
 
-.sidenav a.router-link-active,
-.sidenav a.active {
+.nav a.router-link-active,
+.nav a.active {
   background: var(--primary);
   color: var(--background-secondary);
 }
 
-.sidenav a:hover,
-.sidenav a.router-link-active:hover,
-.sidenav a.active:hover,
+.nav a:hover,
+.nav a.router-link-active:hover,
+.nav a.active:hover,
 button:hover {
   transform: scale(1.05);
   background: var(--primary-dark);

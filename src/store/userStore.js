@@ -1,17 +1,24 @@
 import { defineStore } from "pinia";
-import { api, fakeApi } from "@/services/api";
+import { api } from "@/services/api";
 import { toastError } from "@/utils/toast";
+import {
+  toCepString,
+  toCpfString,
+  toPhoneString,
+  numbersOnly,
+} from "@/utils/textMasks";
 
 export const userStore = defineStore("user", {
   state: () => ({
     isAuthenticated: false,
     isAdmin: false,
     user: null,
-    auth_token: null,
+    authToken: null,
     userForm: {
       email: "",
       name: "",
       password: "",
+      passwordConfirmation: "",
       phone: "",
       cpf: "",
       cep: "",
@@ -32,7 +39,7 @@ export const userStore = defineStore("user", {
         this.fillUserForm();
         this.isAuthenticated = true;
         if (this.user.roles.includes("ADMIN")) this.isAdmin = true;
-        this.auth_token = localStorage.getItem("bethstore.auth_token");
+        this.authToken = localStorage.getItem("bethstore.auth_token");
       }
     },
 
@@ -41,9 +48,10 @@ export const userStore = defineStore("user", {
         email: this.user.email,
         name: this.user.name,
         password: "",
-        phone: this.user.phone,
-        cpf: this.user.cpf,
-        cep: this.user.cep,
+        passwordConfirmation: "",
+        phone: toPhoneString(this.user.phone),
+        cpf: toCpfString(this.user.cpf),
+        cep: toCepString(this.user.cep),
         district: this.user.district,
         city: this.user.city,
         state: this.user.state,
@@ -58,6 +66,7 @@ export const userStore = defineStore("user", {
         email: "",
         name: "",
         password: "",
+        passwordConfirmation: "",
         phone: "",
         cpf: "",
         cep: "",
@@ -70,44 +79,41 @@ export const userStore = defineStore("user", {
       };
     },
 
-    async fakeLogin({ email, password }) {
+    async register() {
+      const newUser = {
+        bairro: this.userForm.district,
+        cep: numbersOnly(this.userForm.cep),
+        cidade: this.userForm.city,
+        complemento: this.userForm.complement,
+        cpfOuCnpj: numbersOnly(this.userForm.cpf),
+        email: this.userForm.email,
+        estado: this.userForm.state,
+        logradouro: this.userForm.street,
+        nome: this.userForm.name,
+        numero: this.userForm.number,
+        senha: this.userForm.password,
+        telefone1: numbersOnly(this.userForm.phone),
+        tipo: 1,
+      };
       try {
-        const response = await fakeApi.get("users");
-        const user = response.data.find((user) => user.email === email);
-
-        if (!user || user.password !== password)
-          throw new Error("Email/senha incorretos.");
-
-        this.user = user;
-        localStorage.setItem("bethstore.user", JSON.stringify(this.user));
-
-        this.isAuthenticated = true;
-        if (this.user.roles.includes("ADMIN")) this.isAdmin = true;
-
-        this.router.push({ name: "home" });
+        // await api.post("usuarios", newUser);
+        console.log(newUser);
+        // await this.login({
+        //   email: this.userForm.email,
+        //   password: this.userForm.password,
+        // });
       } catch (error) {
-        toastError(error.message);
+        toastError(error.response.data.message);
       }
     },
 
-    async fakeRegister() {
+    async update(id) {
       try {
-        await fakeApi.post("users", { ...this.userForm, roles: ["CLIENTE"] });
-        await this.fakeLogin({
-          email: this.userForm.email,
-          password: this.userForm.password,
-        });
-      } catch (error) {
-        toastError(error.message);
-      }
-    },
-
-    async fakeUpdate(id) {
-      try {
-        await fakeApi.put(`user/${id}`, {
-          ...this.userForm,
-          roles: ["CLIENTE"],
-        });
+        console.log(id);
+        // await api.put(`user/${id}`, {
+        //   ...this.userForm,
+        //   roles: ["CLIENTE"],
+        // });
       } catch (error) {
         toastError(error.message);
       }
@@ -116,34 +122,30 @@ export const userStore = defineStore("user", {
     async login({ email, password }) {
       try {
         const response = await api.post("login", { email, senha: password });
-        console.log(response);
-        console.log(response.headers);
-        console.log(response.headers.authorization);
-        console.log(response.headers.userid);
 
-        this.auth_token = response.headers.authorization;
-        localStorage.setItem("bethstore.auth_token", this.auth_token);
+        this.authToken = response.headers.authorization;
+        localStorage.setItem("bethstore.auth_token", this.authToken);
 
         // const userid = response.headers.userid;
-        const userResponse = await api.get(`usuarios/1`, {
+        const userResponse = await api.get(`usuarios/find`, {
           headers: {
-            Authorization: this.auth_token,
+            Authorization: this.authToken,
           },
         });
 
         this.user = {
-          id: 1,
+          id: userResponse.data.id,
           email: userResponse.data.email,
           name: userResponse.data.nome,
           phone: userResponse.data.telefones[0],
           cpf: userResponse.data.cpfOuCnpj,
-          cep: userResponse.data.enderecos[0].cep,
-          district: userResponse.data.enderecos[0].bairro,
-          city: userResponse.data.enderecos[0].cidade,
-          state: userResponse.data.enderecos[0].estado,
-          street: userResponse.data.enderecos[0].logradouro,
-          number: userResponse.data.enderecos[0].numero,
-          complement: userResponse.data.enderecos[0].complemento,
+          cep: userResponse.data.cep,
+          district: userResponse.data.bairro,
+          city: userResponse.data.cidade,
+          state: userResponse.data.estado,
+          street: userResponse.data.logradouro,
+          number: userResponse.data.numero,
+          complement: userResponse.data.complemento,
           roles: userResponse.data.perfis,
         };
         this.fillUserForm();

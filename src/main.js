@@ -3,6 +3,7 @@ import App from "./App.vue";
 import "./registerServiceWorker";
 import router from "./router";
 import { createPinia } from "pinia";
+import VueTheMask from "vue-the-mask";
 
 const app = createApp(App);
 
@@ -12,5 +13,6 @@ pinia.use(({ store }) => {
 });
 
 app.use(pinia);
+app.use(VueTheMask);
 app.use(router);
 app.mount("#app");

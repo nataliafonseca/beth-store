@@ -1,6 +1,5 @@
 import { defineStore } from "pinia";
 import { fakeApi } from "@/services/api";
-// import { toastError } from "@/utils/toast";
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import { userStore } from "@/store/userStore";

@@ -1,7 +1,9 @@
 <template>
   <loading-dots v-if="loading" />
   <li v-else>
-    <img :src="product.picture" alt="" />
+    <div class="image">
+      <img :src="product.picture" alt="" />
+    </div>
     <div class="info">
       <div class="l1">
         <p>
@@ -32,7 +34,7 @@
       </div>
       <div class="l2">
         <span class="product-price">
-          {{ formatPrice(product.price) }}
+          {{ toPriceString(product.price) }}
         </span>
         <div class="counter">
           <button @click.prevent="productStore.subtractFromCart(product.id)">
@@ -50,7 +52,7 @@
           <button v-else disabled>+</button>
         </div>
         <span class="product-subtotal">
-          {{ formatPrice(product.price * item.count) }}
+          {{ toPriceString(product.price * item.count) }}
         </span>
       </div>
     </div>
@@ -61,6 +63,7 @@
 import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import LoadingDots from "./LoadingDots.vue";
+import { toPriceString } from "@/utils/textMasks";
 
 export default {
   name: "CartItem",
@@ -79,17 +82,7 @@ export default {
       );
       this.product = product;
     },
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
+    toPriceString,
   },
   async created() {
     this.loading = true;
@@ -110,6 +103,13 @@ li {
 
 li + li {
   border-top: 1px solid var(--border-light);
+}
+
+.image img {
+  width: 50px;
+  height: 50px;
+  object-fit: scale-down;
+  object-position: center;
 }
 
 .info {

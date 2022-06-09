@@ -18,7 +18,7 @@
       </div>
       <div>
         <h3>TOTAL</h3>
-        <p>{{ formatPrice(order.total_price) }}</p>
+        <p>{{ toPriceString(order.total_price) }}</p>
       </div>
 
       <div class="order-status">
@@ -35,6 +35,7 @@
 <script>
 import { mapStores } from "pinia";
 import { orderStore } from "@/store/orderStore";
+import { toPriceString } from "@/utils/textMasks";
 
 export default {
   name: "OrdersView",
@@ -50,17 +51,6 @@ export default {
     },
   },
   methods: {
-    formatPrice(value) {
-      value = Number(value);
-      if (!isNaN(value)) {
-        return Number(value).toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
-      } else {
-        return "";
-      }
-    },
     status(status) {
       if (status === "EM PROCESSAMENTO") {
         return "pending";
@@ -69,6 +59,7 @@ export default {
       }
       return "complete";
     },
+    toPriceString,
   },
 };
 </script>
