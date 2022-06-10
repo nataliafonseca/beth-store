@@ -269,4 +269,10 @@ img {
 .icon-button svg {
   width: 1.2rem;
 }
+
+@media screen and (max-width: 400px) {
+  li {
+    grid-template-columns: 50px 1fr auto;
+  }
+}
 </style>
