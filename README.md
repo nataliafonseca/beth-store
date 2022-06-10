@@ -12,7 +12,7 @@
 
 Projeto desenvolvido como avaliação para a matéria Programação Web.
 
-Trata-se de uma loja virtual que visa expandir uma loja física que vende a atacado e
+Trata-se do front-end de uma loja virtual que visa expandir uma loja física que vende a atacado e
 varejo produtos de vestuários, decoração, beleza, e cama, mesa e banho.
 
 ## Como Acessar ▶️
