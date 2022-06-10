@@ -2,7 +2,7 @@
   <section>
     <div class="actions" v-if="userStore.isAdmin">
       <button
-        @click.prevent="onApprove(order.id)"
+        @click.prevent="onApprove"
         class="btn icon-button"
         aria-label="aprovar"
       >
@@ -22,7 +22,7 @@
         </svg>
       </button>
       <button
-        @click.prevent="onCancel(order.id)"
+        @click.prevent="onCancel"
         class="btn icon-button"
         aria-label="cancelar"
       >
@@ -111,12 +111,18 @@ export default {
   },
   methods: {
     status(status) {
-      if (status === "APROVADO") {
+      if (status === "QUITADO") {
         return "complete";
       } else if (status === "CANCELADO") {
         return "canceled";
       }
       return "pending";
+    },
+    async onApprove() {
+      this.orderStore.approveOrder(this.id);
+    },
+    async onCancel() {
+      this.orderStore.rejectOrder(this.id);
     },
     toPriceString,
   },
@@ -171,7 +177,6 @@ h3 {
 .status {
   display: inline-block;
   width: max-content;
-  margin-left: auto;
   padding: 2px 4px;
   border-radius: 4px;
   color: #ffffff;

@@ -119,19 +119,19 @@ export default {
   },
   methods: {
     status(status) {
-      if (status === "APROVADO") {
+      if (status === "QUITADO") {
         return "complete";
       } else if (status === "CANCELADO") {
         return "canceled";
       }
       return "pending";
     },
-    // async onApprove(id) {
-    //   this.$router.push({ name: "order-update", params: { id } });
-    // },
-    // async onCancel(id) {
-    //   await this.orderStore.deleteCategory(id);
-    // },
+    async onApprove(id) {
+      this.orderStore.approveOrder(id);
+    },
+    async onCancel(id) {
+      this.orderStore.rejectOrder(id);
+    },
     toPriceString,
   },
 };
