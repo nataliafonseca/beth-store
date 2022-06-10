@@ -12,20 +12,20 @@
 
 Projeto desenvolvido como avaliação para a matéria Programação Web.
 
-Trata-se do front-end de uma loja virtual que visa expandir uma loja física que vende a atacado e
+Trata-se do frontend de uma loja virtual que visa expandir uma loja física que vende a atacado e
 varejo produtos de vestuários, decoração, beleza, e cama, mesa e banho.
 
 ## Como Acessar ▶️
 
 A interface da aplicação está disponível no endereço https://bethstore.vercel.app. Para o login, você pode optar por um dos seguintes usuários:
 
-**Administrador**
-Email: ```admin@admin.com```
-Senha: ```admin```
+**Administrador**  
+Email: ```admin@admin.com```  
+Senha: ```admin```  
 
-**Cliente**
-Email: ```nat@nat.nat```
-Senha: ```nat```
+**Cliente**  
+Email: ```nat@nat.nat```  
+Senha: ```nat```  
 
 Se desejar rodar a aplicação na sua maquina local, seguem as instruções.
 Para executar o projeto, você precisa ter o [Node.js](https://nodejs.org) instalado em sua máquina.
