@@ -72,7 +72,7 @@ export const productStore = defineStore("product", {
 
     async createProduct() {
       try {
-        await api.post(
+        const response = await api.post(
           "produtos",
           {
             nome: this.productForm.description,
@@ -92,6 +92,11 @@ export const productStore = defineStore("product", {
             },
           }
         );
+
+        const { id } = response.data;
+
+        if (this.productForm.picture.length && this.id)
+          await this.uploadProductPicture(id);
 
         await this.loadProducts();
         toastSuccess("Produto cadastrado com sucesso!");
@@ -143,7 +148,8 @@ export const productStore = defineStore("product", {
 
         await this.loadProducts();
 
-        if (this.productForm.picture.length) this.uploadProductPicture(id);
+        if (this.productForm.picture.length)
+          await this.uploadProductPicture(id);
 
         toastSuccess("Produto atualizado com sucesso!");
         this.router.push({ name: "product-table" });

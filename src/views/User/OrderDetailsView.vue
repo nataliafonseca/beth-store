@@ -111,12 +111,12 @@ export default {
   },
   methods: {
     status(status) {
-      if (status === "EM PROCESSAMENTO") {
-        return "pending";
+      if (status === "APROVADO") {
+        return "complete";
       } else if (status === "CANCELADO") {
         return "canceled";
       }
-      return "complete";
+      return "pending";
     },
     toPriceString,
   },

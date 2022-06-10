@@ -77,7 +77,7 @@ export default {
       this.$router.push({ name: "client-update", params: { id } });
     },
     async onRemove(id) {
-      await this.clientStore.deleteProduct(id);
+      await this.clientStore.removeCliente(id);
     },
     toPriceString,
   },

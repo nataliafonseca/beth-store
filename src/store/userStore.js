@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { api } from "@/services/api";
-import { toastError } from "@/utils/toast";
+import { toastError, toastSuccess } from "@/utils/toast";
 import {
   toCepString,
   toCpfString,
@@ -30,7 +30,6 @@ export const userStore = defineStore("user", {
       complement: "",
     },
   }),
-
   actions: {
     loadUser() {
       const existingUser = localStorage.getItem("bethstore.user");
@@ -131,6 +130,7 @@ export const userStore = defineStore("user", {
             },
           }
         );
+        toastSuccess("Usuário atualizado com sucesso!");
       } catch (error) {
         toastError(error.message);
       }
@@ -143,7 +143,6 @@ export const userStore = defineStore("user", {
         this.authToken = response.headers.authorization;
         localStorage.setItem("bethstore.auth_token", this.authToken);
 
-        // const userid = response.headers.userid;
         const userResponse = await api.get(`usuarios/find`, {
           headers: {
             Authorization: this.authToken,

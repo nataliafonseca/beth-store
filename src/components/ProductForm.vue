@@ -178,7 +178,7 @@
     </div>
 
     <!-- picture -->
-    <div v-if="isUpdate">
+    <div>
       <label for="picture">Imagem</label>
       <input
         type="file"

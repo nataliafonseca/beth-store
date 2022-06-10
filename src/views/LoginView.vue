@@ -49,6 +49,7 @@ import { mapStores } from "pinia";
 import { userStore } from "@/store/userStore";
 import useVuelidate from "@vuelidate/core";
 import { required, email, helpers } from "@vuelidate/validators";
+import { orderStore } from "../store/orderStore";
 
 export default {
   name: "LoginView",
@@ -59,13 +60,14 @@ export default {
     };
   },
   computed: {
-    ...mapStores(userStore),
+    ...mapStores(userStore, orderStore),
   },
   methods: {
     async logUser() {
       const isFormCorrect = await this.v$.$validate();
       if (!isFormCorrect) return;
       await this.userStore.login(this.user);
+      await this.orderStore.loadOrders();
     },
   },
 

@@ -192,6 +192,10 @@ svg:hover {
 }
 
 @media screen and (max-width: 530px) {
+  nav {
+    padding: 15px 10px;
+  }
+
   .user .btn {
     display: flex;
     align-items: center;
