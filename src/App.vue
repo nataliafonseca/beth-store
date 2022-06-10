@@ -39,11 +39,10 @@ export default {
   },
   async created() {
     this.loading = true;
+    this.userStore.loadUser();
     await this.productStore.loadProducts();
     await this.productStore.loadCategories();
-    this.productStore.loadCart();
-    this.userStore.loadUser();
-    this.clientStore.loadClients();
+    await this.clientStore.loadClients();
     await this.orderStore.loadOrders();
     this.loading = false;
   },
