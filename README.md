@@ -52,7 +52,7 @@ A interface poderá ser acessada em http://localhost:8080.
 ## Tecnologias 💻
 
 O frontend da aplicação foi implementado em **Vue.js 3** utilizando a linguagem **JavaScript**.  
-O deploy do frontend da aplicação foi realizado no **Vercel**.
+O deploy do frontend foi realizado no **Vercel**.
 
 ## Licença 📃
 
