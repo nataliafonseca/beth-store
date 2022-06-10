@@ -164,13 +164,13 @@ router.beforeEach((to, from, next) => {
     to.matched.some((record) => record.meta.requireAuthenticated) &&
     !window.localStorage.getItem("bethstore.user")
   )
-    next({ name: "home" });
+    next({ name: "login" });
 
   if (
     to.matched.some((record) => record.meta.requireUnauthenticated) &&
     window.localStorage.getItem("bethstore.user")
   )
-    next({ name: "home" });
+    next({ name: "profile" });
 
   if (
     to.matched.some((record) => record.meta.requireAdmin) &&

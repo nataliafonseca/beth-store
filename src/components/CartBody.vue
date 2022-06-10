@@ -12,7 +12,12 @@
         <span>Total:</span>
         <span class="total-price">{{ toPriceString(getTotal()) }}</span>
       </p>
-      <slot></slot>
+      <button class="btn clear-btn" @click.prevent="productStore.clearCart">
+        LIMPAR SACOLA
+      </button>
+      <button @click.prevent="goToCheckout" class="btn cart-btn">
+        FINALIZAR PEDIDO
+      </button>
     </div>
     <div class="empty-cart" v-else key="no-items">
       <p>
@@ -29,7 +34,7 @@ import CartItem from "./CartItem.vue";
 import { toPriceString } from "@/utils/textMasks";
 
 export default {
-  name: "CartSidebar",
+  name: "CartBody",
   components: { CartItem },
   computed: {
     ...mapStores(productStore),
@@ -43,6 +48,10 @@ export default {
         const subtotal = currentItem.count * product.price;
         return totalPrice + subtotal;
       }, 0);
+    },
+    goToCheckout() {
+      this.$router.push({ name: "checkout" });
+      this.productStore.closeCart();
     },
     toPriceString,
   },
@@ -75,5 +84,23 @@ ul {
 
 .empty-cart p {
   text-align: center;
+}
+
+.cart-btn,
+.clear-btn {
+  margin: 10px auto;
+  width: calc(100% - 40px);
+}
+
+.clear-btn {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+
+.clear-btn:hover {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
 }
 </style>

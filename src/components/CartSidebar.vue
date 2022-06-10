@@ -31,14 +31,7 @@
         </svg>
       </button>
     </header>
-    <cart-body>
-      <button class="btn clear-btn" @click.prevent="productStore.clearCart">
-        LIMPAR SACOLA
-      </button>
-      <button @click.prevent="goToCheckout" class="btn cart-btn">
-        FINALIZAR PEDIDO
-      </button>
-    </cart-body>
+    <cart-body />
   </section>
 </template>
 
@@ -58,14 +51,6 @@ export default {
     expandCart() {
       this.$router.push({ name: "cart" });
       this.productStore.closeCart();
-    },
-    goToCheckout() {
-      if (this.userStore.isAuthenticated) {
-        this.$router.push({ name: "checkout" });
-        this.productStore.closeCart();
-      } else {
-        this.$router.push({ name: "login" });
-      }
     },
   },
 };
@@ -109,23 +94,5 @@ header span {
 
 .svg-icon {
   width: 24px;
-}
-
-.cart-btn,
-.clear-btn {
-  margin: 10px auto;
-  width: calc(100% - 40px);
-}
-
-.clear-btn {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-.clear-btn:hover {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
 }
 </style>

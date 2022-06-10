@@ -24,12 +24,6 @@ export default {
   computed: {
     ...mapStores(productStore),
   },
-  methods: {
-    goToCheckout() {
-      this.$router.push({ name: "checkout" });
-      this.productStore.closeCart();
-    },
-  },
 };
 </script>
 
@@ -44,23 +38,5 @@ h1 {
   color: var(--primary);
   font-size: 2rem;
   margin-bottom: 40px;
-}
-
-.cart-btn,
-.clear-btn {
-  margin: 10px auto;
-  width: calc(100% - 40px);
-}
-
-.clear-btn {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
-}
-
-.clear-btn:hover {
-  background: transparent;
-  border: 1px solid var(--primary);
-  color: var(--primary);
 }
 </style>
