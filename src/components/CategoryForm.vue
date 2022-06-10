@@ -111,4 +111,14 @@ input {
   color: #bd2c36;
   margin-top: 3px;
 }
+
+@media screen and (max-width: 500px) {
+  form > div {
+    grid-template-columns: 1fr;
+  }
+
+  input {
+    margin: 3px 0;
+  }
+}
 </style>

@@ -70,7 +70,7 @@ export default {
 }
 .order {
   display: grid;
-  grid-template-columns: auto auto 200px;
+  grid-template-columns: auto auto 150px;
   gap: 20px;
   background: var(--background-secondary);
   box-shadow: var(--box-shadow);
@@ -123,5 +123,16 @@ export default {
 
 .canceled {
   background: #d34c46;
+}
+
+@media screen and (max-width: 460px) {
+  .order {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .order-status {
+    grid-row: 1;
+    grid-column: 2;
+  }
 }
 </style>

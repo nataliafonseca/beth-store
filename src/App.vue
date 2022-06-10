@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <page-header />
+    <page-header :loading="loading" />
     <router-view class="view" v-slot="{ Component }">
       <transition mode="out-in">
         <loading-dots class="expand" v-if="loading" key="loading" />
@@ -44,7 +44,7 @@ export default {
     this.productStore.loadCart();
     this.userStore.loadUser();
     this.clientStore.loadClients();
-    // await this.orderStore.loadOrders();
+    await this.orderStore.loadOrders();
     this.loading = false;
   },
 };

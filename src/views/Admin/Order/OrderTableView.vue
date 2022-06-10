@@ -1,10 +1,7 @@
 <template>
   <section>
     <header>
-      <h2>Lista de Produtos</h2>
-      <router-link :to="{ name: 'product-create' }" class="btn">
-        ADICIONAR
-      </router-link>
+      <h2>Lista de Pedidos</h2>
     </header>
     <div class="main-wrapper">
       <div class="responsive-table">
@@ -12,30 +9,36 @@
           <thead>
             <tr>
               <th>ID</th>
-              <th>DESCRIÇÃO</th>
-              <th>MARCA</th>
-              <th>MODELO</th>
-              <th>PREÇO</th>
-              <th>CATEGORIA</th>
+              <th>DESTINO</th>
+              <th>TOTAL</th>
+              <th>STATUS</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="product in productStore.products" :key="product.id">
-              <td>{{ product.id }}</td>
-              <td>{{ product.description }}</td>
-              <td>{{ product.brand }}</td>
-              <td>{{ product.model }}</td>
-              <td>{{ toPriceString(product.price) }}</td>
+            <tr v-for="order in orderStore.orders" :key="order.id">
+              <td>{{ order.id }}</td>
               <td>
-                {{
-                  productStore.getCategoryById(product.category_id).description
-                }}
+                <p>{{ order.user.name }}</p>
+                <p>{{ order.user.street }}, {{ order.user.number }}</p>
+                <p>
+                  {{ order.user.district }}, {{ order.user.city }},
+                  {{ order.user.state }}
+                </p>
+                <p>{{ order.user.cep }}</p>
+              </td>
+              <td>
+                {{ toPriceString(order.total_price) }}
+              </td>
+              <td>
+                <p class="status" :class="status(order.status)">
+                  {{ order.status }}
+                </p>
               </td>
               <td>
                 <div class="actions">
                   <router-link
-                    :to="{ name: 'product', params: { id: product.id } }"
+                    :to="{ name: 'order-details', params: { id: order.id } }"
                     class="btn icon-button"
                     aria-label="visualizar"
                   >
@@ -54,10 +57,10 @@
                       />
                     </svg>
                   </router-link>
-                  <router-link
-                    :to="{ name: 'product-update', params: { id: product.id } }"
+                  <button
+                    @click.prevent="onApprove(order.id)"
                     class="btn icon-button"
-                    aria-label="editar"
+                    aria-label="aprovar"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -70,14 +73,14 @@
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                  </router-link>
+                  </button>
                   <button
-                    @click.prevent="onRemove(product.id)"
+                    @click.prevent="onCancel(order.id)"
                     class="btn icon-button"
-                    aria-label="remover"
+                    aria-label="cancelar"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -90,7 +93,7 @@
                       <path
                         stroke-linecap="round"
                         stroke-linejoin="round"
-                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
                   </button>
@@ -106,18 +109,29 @@
 
 <script>
 import { mapStores } from "pinia";
-import { productStore } from "@/store/productStore";
+import { orderStore } from "@/store/orderStore";
 import { toPriceString } from "@/utils/textMasks";
 
 export default {
-  name: "ProductTableView",
+  name: "CategoryTableView",
   computed: {
-    ...mapStores(productStore),
+    ...mapStores(orderStore),
   },
   methods: {
-    async onRemove(id) {
-      await this.productStore.deleteProduct(id);
+    status(status) {
+      if (status === "EM PROCESSAMENTO") {
+        return "pending";
+      } else if (status === "CANCELADO") {
+        return "canceled";
+      }
+      return "complete";
     },
+    // async onApprove(id) {
+    //   this.$router.push({ name: "order-update", params: { id } });
+    // },
+    // async onCancel(id) {
+    //   await this.orderStore.deleteCategory(id);
+    // },
     toPriceString,
   },
 };
@@ -178,5 +192,27 @@ tbody tr {
 
 .icon-button svg {
   width: 1.2rem;
+}
+
+.status {
+  display: inline-block;
+  width: max-content;
+  margin-left: auto;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: #ffffff;
+  font-size: 0.8rem;
+}
+
+.pending {
+  background: #cea046;
+}
+
+.complete {
+  background: #579f6e;
+}
+
+.canceled {
+  background: #d34c46;
 }
 </style>

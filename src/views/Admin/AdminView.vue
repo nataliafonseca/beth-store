@@ -25,7 +25,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'profile-update' }"
+            :to="{ name: 'order-table' }"
             :class="{ active: ordersIsActive }"
             >PEDIDOS</router-link
           >
@@ -66,6 +66,7 @@ export default {
 
 <style scoped>
 .admin {
+  width: 95vw;
   max-width: 1000px;
   margin-top: 40px;
   margin-left: auto;

@@ -84,4 +84,10 @@ form {
   gap: 10px;
   padding: 0 10px;
 }
+
+@media screen and (max-width: 700px) {
+  form {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

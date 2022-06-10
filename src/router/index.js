@@ -143,6 +143,14 @@ const routes = [
           ),
       },
       {
+        path: "orders",
+        name: "order-table",
+        component: () =>
+          import(
+            /* webpackChunkName: "order-table" */ "../views/Admin/Order/OrderTableView.vue"
+          ),
+      },
+      {
         path: "clients",
         name: "client-table",
         component: () =>

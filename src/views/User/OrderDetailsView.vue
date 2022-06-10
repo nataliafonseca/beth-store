@@ -1,5 +1,47 @@
 <template>
   <section>
+    <div class="actions" v-if="userStore.isAdmin">
+      <button
+        @click.prevent="onApprove(order.id)"
+        class="btn icon-button"
+        aria-label="aprovar"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </button>
+      <button
+        @click.prevent="onCancel(order.id)"
+        class="btn icon-button"
+        aria-label="cancelar"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+      </button>
+    </div>
     <div class="header">
       <div class="order-status">
         <p class="id lighter">PEDIDO #{{ order.id }}</p>
@@ -52,6 +94,7 @@
 <script>
 import { mapStores } from "pinia";
 import { orderStore } from "@/store/orderStore";
+import { userStore } from "@/store/userStore";
 import { toPriceString } from "@/utils/textMasks";
 
 export default {
@@ -64,7 +107,7 @@ export default {
     };
   },
   computed: {
-    ...mapStores(orderStore),
+    ...mapStores(orderStore, userStore),
   },
   methods: {
     status(status) {
@@ -203,5 +246,27 @@ img {
 
 .no-orders p {
   text-align: center;
+}
+
+@media screen and (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 5px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.icon-button {
+  padding: 5px 5px;
+  display: flex;
+}
+
+.icon-button svg {
+  width: 1.2rem;
 }
 </style>

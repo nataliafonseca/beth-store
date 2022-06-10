@@ -58,13 +58,6 @@ export default {
   width: 100%;
 }
 
-@media screen and (max-width: 700px) {
-  section {
-    grid-template-columns: 1fr;
-    margin-top: 20px;
-  }
-}
-
 .sidenav a,
 button {
   padding: 15px;
@@ -93,5 +86,13 @@ button:hover {
   transform: scale(1.05);
   background: var(--primary-dark);
   color: var(--background-secondary);
+}
+
+@media screen and (max-width: 700px) {
+  .profile {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    align-items: start;
+  }
 }
 </style>
