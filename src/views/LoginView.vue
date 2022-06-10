@@ -68,6 +68,7 @@ export default {
       if (!isFormCorrect) return;
       await this.userStore.login(this.user);
       await this.orderStore.loadOrders();
+      await this.clientStore.loadClients();
     },
   },
 

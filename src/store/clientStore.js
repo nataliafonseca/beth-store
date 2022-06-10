@@ -20,6 +20,7 @@ export const clientStore = defineStore("client", {
               Authorization: this.userStore.authToken,
             },
           });
+
           this.clients = response.data.map((client) => ({
             id: client.id,
             email: client.email,

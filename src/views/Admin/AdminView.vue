@@ -43,11 +43,12 @@
 <script>
 import { mapStores } from "pinia";
 import { userStore } from "@/store/userStore";
+import { clientStore } from "../../store/clientStore";
 
 export default {
   name: "AdminView",
   computed: {
-    ...mapStores(userStore),
+    ...mapStores(userStore, clientStore),
     productsIsActive() {
       return this.$route.path.includes("/admin/products");
     },
@@ -60,6 +61,11 @@ export default {
     clientsIsActive() {
       return this.$route.path.includes("/admin/clients");
     },
+  },
+  async created() {
+    if (!this.clientStore.clients.length) {
+      await this.clientStore.loadClients();
+    }
   },
 };
 </script>
