@@ -4,13 +4,16 @@
     <form @submit.prevent="logUser">
       <div>
         <label for="email">Email</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          v-model="user.email"
-          required
-        />
+        <input type="email" id="email" name="email" v-model="user.email" />
+        <ul class="input-errors">
+          <li
+            v-for="error of v$.user.email.$errors"
+            :key="error.$uid"
+            class="error-msg"
+          >
+            {{ error.$message }}
+          </li>
+        </ul>
       </div>
       <div>
         <label for="password">Senha</label>
@@ -19,8 +22,16 @@
           id="password"
           name="password"
           v-model="user.password"
-          required
         />
+        <ul class="input-errors">
+          <li
+            v-for="error of v$.user.password.$errors"
+            :key="error.$uid"
+            class="error-msg"
+          >
+            {{ error.$message }}
+          </li>
+        </ul>
       </div>
       <button class="btn" type="submit">ENTRAR</button>
       <p class="register-link">
@@ -36,15 +47,15 @@
 <script>
 import { mapStores } from "pinia";
 import { userStore } from "@/store/userStore";
+import useVuelidate from "@vuelidate/core";
+import { required, email, helpers } from "@vuelidate/validators";
 
 export default {
   name: "LoginView",
   data: function () {
     return {
-      user: {
-        email: "",
-        password: "",
-      },
+      v$: useVuelidate(),
+      user: { email: "", password: "" },
     };
   },
   computed: {
@@ -52,8 +63,24 @@ export default {
   },
   methods: {
     async logUser() {
+      const isFormCorrect = await this.v$.$validate();
+      if (!isFormCorrect) return;
       await this.userStore.login(this.user);
     },
+  },
+
+  validations() {
+    return {
+      user: {
+        email: {
+          required: helpers.withMessage("Campo obrigatório", required),
+          email: helpers.withMessage("Informe um e-mail válido", email),
+        },
+        password: {
+          required: helpers.withMessage("Campo obrigatório", required),
+        },
+      },
+    };
   },
 };
 </script>

@@ -53,7 +53,7 @@ export const productStore = defineStore("product", {
 
           const product = {
             id: p.id,
-            category_id: 1,
+            category_id: p.categoria.id,
             description: p.nome,
             brand: p.marca,
             model: p.modelo,
@@ -299,7 +299,7 @@ export const productStore = defineStore("product", {
             product.model.toLowerCase().includes(search.toLowerCase()) ||
             product.brand.toLowerCase().includes(search.toLowerCase()) ||
             product.size.toLowerCase().includes(search.toLowerCase()) ||
-            product.specs.toLowerCase().includes(search.toLowerCase())
+            product.specs?.toLowerCase().includes(search.toLowerCase())
         );
       }
 

@@ -13,7 +13,7 @@
           :product="product"
         />
         <products-pagination
-          :productsTotal="productStore.products.length"
+          :productsTotal="productStore.visibleProducts.length"
           :productsPerPage="productsPerPage"
         />
       </div>

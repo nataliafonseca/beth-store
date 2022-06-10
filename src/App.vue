@@ -23,6 +23,7 @@ import { mapStores } from "pinia";
 import { productStore } from "@/store/productStore";
 import { userStore } from "@/store/userStore";
 import { orderStore } from "@/store/orderStore";
+import { clientStore } from "@/store/clientStore";
 import PageFooter from "./components/PageFooter.vue";
 import PageHeader from "./components/PageHeader.vue";
 import LoadingDots from "./components/LoadingDots.vue";
@@ -34,7 +35,7 @@ export default {
   },
   components: { PageHeader, PageFooter, LoadingDots, CartSidebar },
   computed: {
-    ...mapStores(productStore, userStore, orderStore),
+    ...mapStores(productStore, userStore, orderStore, clientStore),
   },
   async created() {
     this.loading = true;
@@ -42,7 +43,8 @@ export default {
     await this.productStore.loadCategories();
     this.productStore.loadCart();
     this.userStore.loadUser();
-    await this.orderStore.loadOrders();
+    this.clientStore.loadClients();
+    // await this.orderStore.loadOrders();
     this.loading = false;
   },
 };

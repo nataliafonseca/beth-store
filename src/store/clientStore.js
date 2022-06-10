@@ -1,19 +1,38 @@
 import { defineStore } from "pinia";
-// import { fakeApi } from "@/services/api";
+import { api } from "@/services/api";
 import { mapStores } from "pinia";
 import { userStore } from "@/store/userStore";
-// import router from "../router";
 // import { toastError, toastSuccess } from "../utils/toast";
 
-export const orderStore = defineStore("order", {
+export const clientStore = defineStore("client", {
   state: () => ({
     clients: [],
   }),
+
   getters: mapStores(userStore),
+
   actions: {
-    loadClients() {
+    async loadClients() {
       if (this.userStore.isAdmin) {
-        console.log("");
+        const response = await api.get("usuarios", {
+          headers: {
+            Authorization: this.userStore.authToken,
+          },
+        });
+        this.clients = response.data.map((client) => ({
+          id: client.id,
+          email: client.email,
+          name: client.nome,
+          phone: client.telefones[0],
+          cpf: client.cpfOuCnpj,
+          cep: client.cep,
+          district: client.bairro,
+          city: client.cidade,
+          state: client.estado,
+          street: client.logradouro,
+          number: client.numero,
+          complement: client.complemento,
+        }));
       }
     },
   },

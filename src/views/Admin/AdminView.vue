@@ -18,7 +18,7 @@
         </li>
         <li>
           <router-link
-            :to="{ name: 'profile-update' }"
+            :to="{ name: 'client-table' }"
             :class="{ active: clientsIsActive }"
             >CLIENTES</router-link
           >

@@ -106,9 +106,8 @@ export const userStore = defineStore("user", {
       }
     },
 
-    async update(id) {
+    async update() {
       try {
-        console.log(id);
         await api.put(
           `usuarios`,
           {

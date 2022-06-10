@@ -25,24 +25,36 @@ const routes = [
     name: "login",
     component: () =>
       import(/* webpackChunkName: "login" */ "../views/LoginView.vue"),
+    meta: {
+      requireUnauthenticated: true,
+    },
   },
   {
     path: "/register",
     name: "register",
     component: () =>
       import(/* webpackChunkName: "register" */ "../views/RegisterView.vue"),
+    meta: {
+      requireUnauthenticated: true,
+    },
   },
   {
     path: "/checkout",
     name: "checkout",
     component: () =>
       import(/* webpackChunkName: "checkout" */ "../views/CheckoutView.vue"),
+    meta: {
+      requireAuthenticated: true,
+    },
   },
   {
     path: "/profile",
     name: "profile",
     component: () =>
       import(/* webpackChunkName: "profile" */ "../views/User/ProfileView.vue"),
+    meta: {
+      requireAuthenticated: true,
+    },
     children: [
       {
         path: "orders",
@@ -76,6 +88,9 @@ const routes = [
     name: "admin",
     component: () =>
       import(/* webpackChunkName: "admin" */ "../views/Admin/AdminView.vue"),
+    meta: {
+      requireAdmin: true,
+    },
     children: [
       {
         path: "products",
@@ -127,6 +142,14 @@ const routes = [
             /* webpackChunkName: "category-update" */ "../views/Admin/Category/CategoryUpdateView.vue"
           ),
       },
+      {
+        path: "clients",
+        name: "client-table",
+        component: () =>
+          import(
+            /* webpackChunkName: "client-table" */ "../views/Admin/Client/ClientTableView.vue"
+          ),
+      },
     ],
   },
 ];
@@ -134,6 +157,33 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (
+    to.matched.some((record) => record.meta.requireAuthenticated) &&
+    !window.localStorage.getItem("bethstore.user")
+  )
+    next({ name: "home" });
+
+  if (
+    to.matched.some((record) => record.meta.requireUnauthenticated) &&
+    window.localStorage.getItem("bethstore.user")
+  )
+    next({ name: "home" });
+
+  if (
+    to.matched.some((record) => record.meta.requireAdmin) &&
+    !(
+      window.localStorage.getItem("bethstore.user") &&
+      JSON.parse(window.localStorage.getItem("bethstore.user")).roles.includes(
+        "ADMIN"
+      )
+    )
+  )
+    next({ name: "home" });
+
+  next();
 });
 
 export default router;

@@ -4,16 +4,15 @@
       <h1>Confirme sua compra</h1>
       <cart-body />
       <h2>Endereço de Entrega</h2>
-      <address-form />
-      <button class="btn" @click.prevent="completeOrder">
-        COMPLETAR COMPRA
-      </button>
+      <user-form @submit-form="completeOrder">
+        <button class="btn" type="submit">COMPLETAR COMPRA</button>
+      </user-form>
     </div>
   </section>
 </template>
 
 <script>
-import AddressForm from "../components/AddressForm.vue";
+import UserForm from "../components/UserForm.vue";
 import CartBody from "../components/CartBody.vue";
 import { mapStores } from "pinia";
 import { orderStore } from "@/store/orderStore";
@@ -22,7 +21,7 @@ import { productStore } from "../store/productStore";
 
 export default {
   name: "OrderConfirmationView",
-  components: { CartBody, AddressForm },
+  components: { CartBody, UserForm },
   computed: {
     ...mapStores(orderStore, userStore, productStore),
   },
@@ -78,6 +77,6 @@ h2 {
 }
 
 button {
-  margin: 40px 50px;
+  margin: 20px 0;
 }
 </style>

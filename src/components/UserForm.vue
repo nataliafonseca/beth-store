@@ -65,7 +65,7 @@
     </div>
 
     <!-- password -->
-    <div>
+    <div v-if="!($route.name === 'checkout')">
       <label for="password">Senha</label>
       <input
         type="password"
@@ -86,7 +86,7 @@
     </div>
 
     <!-- password_confirmation -->
-    <div>
+    <div v-if="!($route.name === 'checkout')">
       <label for="password">Confirme sua senha</label>
       <input
         type="password"
@@ -213,7 +213,7 @@
     <div>
       <label for="phone">Telefone</label>
       <input
-        v-mask="'(##) #####-####'"
+        v-mask="['(##) ####-####', '(##) #####-####']"
         type="text"
         id="phone"
         name="phone"
